@@ -1,0 +1,5 @@
+<ng-container [ngSwitch]="employeeErrorMessage">
+  <span *ngSwitchCase="EmployeeErrorMessage.CannotDeleteEmployee">
+    No se puede eliminar el empleado, por que tiene ordenes activas.
+  </span>
+</ng-container>

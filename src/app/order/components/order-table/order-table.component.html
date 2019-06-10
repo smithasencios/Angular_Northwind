@@ -1,0 +1,37 @@
+<ngx-datatable #orderTable [footerHeight]="50" class="material" [headerHeight]="50" [columnMode]="'force'" [limit]="5"
+  [rowHeight]="50" [rows]="items">
+
+  <ngx-datatable-column name="Description" prop="Description">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      {{value}}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Cantidad" prop="Quantity">
+    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+      <span title="Double click to edit" (dblclick)="editing[rowIndex + '-cantidad'] = true"
+        *ngIf="!editing[rowIndex + '-cantidad']">
+        {{value}}
+      </span>
+      <input class="cantidad" autofocus (blur)="onUpdateCantidad($event, 'cantidad', rowIndex)"
+        *ngIf="editing[rowIndex+ '-cantidad']" type="number" [value]="value" />
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Valor Unitario" prop="Unit_Price">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      {{value}}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Valor Total" prop="Total_Value">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      {{value}}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Acciones">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <button mat-icon-button (click)="onRemoveItem()">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

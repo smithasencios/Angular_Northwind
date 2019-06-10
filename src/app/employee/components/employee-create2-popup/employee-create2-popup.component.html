@@ -1,0 +1,88 @@
+<div>
+  <div>
+    <span mat-dialog-title class="modal-title">Crear</span></div>
+</div>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+  <form [formGroup]="newForm" (ngSubmit)="onCreate()">
+    <div class="inputs-container">
+      <div class="row-container">
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="First Name" formControlName="first_name">
+            <mat-error *ngIf="newForm.get('first_name').hasError('required')">Debe ingresar el nombre.</mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Last Name" formControlName="last_name">
+            <mat-error *ngIf="newForm.get('last_name').hasError('required')">Debe ingresar el apellido.</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row-container">
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Job Title" formControlName="job_title">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Company" formControlName="company">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row-container">
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Email Address" formControlName="email_address">
+            <mat-error *ngIf="newForm.get('email_address').hasError('required')">Ingrese Email.
+            </mat-error>
+            <mat-error *ngIf="newForm.get('email_address').hasError('email')">Formato Incorrecto.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Address" formControlName="address">
+            <mat-error *ngIf="newForm.get('address').hasError('required')">Ingrese direccion.</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row-container">
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Business Phone" formControlName="business_phone">
+            <mat-error *ngIf="newForm.get('business_phone').hasError('validatePhone')">Formato Incorrecto.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Mobile Phone" formControlName="mobile_phone">
+            <mat-error *ngIf="newForm.get('mobile_phone').hasError('validatePhone')">Formato Incorrecto.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row-container">
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Fax Number" formControlName="fax_number">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Home Phone" formControlName="home_phone">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="button-container">
+      <button mat-raised-button color="warn" mat-dialog-close>Cerrar</button>
+      <button mat-raised-button type="submit" color="primary" [disabled]="!newForm.valid">Guardar</button>
+    </div>
+  </form>
+</mat-dialog-content>

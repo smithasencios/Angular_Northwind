@@ -1,0 +1,65 @@
+<div class="edit-product-container">
+  <div>
+    <span class="modal-title">Edit Product</span>
+  </div>
+  <mat-divider></mat-divider>
+  <div>
+    <form [formGroup]="productEditForm" (ngSubmit)="onEdit()">
+      <div>
+        <div class="controls">
+          <div class="product-code-container">
+            <mat-form-field class="product-code">
+              <input matInput placeholder="Product Code" formControlName="product_code">
+              <mat-error *ngIf="productEditForm.get('product_code').hasError('required')">Ingrese Codigo.</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="product-name-container">
+            <mat-form-field class="product-name">
+              <input matInput placeholder="Product Name" formControlName="product_name">
+              <mat-error *ngIf="productEditForm.get('product_name').hasError('required')">Ingrese Nombre.</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="controls">
+          <div class="description-container">
+            <mat-form-field class="description">
+              <input matInput placeholder="Description" formControlName="description">
+              <mat-error *ngIf="productEditForm.get('description').hasError('required')">Ingrese Descripcion.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="controls">
+          <div class="standard-cost-container">
+            <mat-form-field class="standard-cost">
+              <input appDecimalOnly type="number" matInput placeholder="Standard Cost" formControlName="standard_cost">
+              <mat-error *ngIf="productEditForm.get('standard_cost').hasError('required')">Ingrese Standard Cost.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="list-price-container">
+            <mat-form-field class="list-price">
+              <input appDecimalOnly type="number" matInput placeholder="List Price" formControlName="list_price">
+              <mat-error *ngIf="productEditForm.get('list_price').hasError('required')">Ingrese List Price.</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="controls">
+          <div class="category-container">
+            <mat-form-field class="category">
+              <mat-label>Select an option</mat-label>
+              <mat-select formControlName="category">
+                <mat-option *ngFor="let category of categories" [value]="category.key">{{category.value}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="button-container">
+          <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+          <button mat-raised-button type="submit" color="primary" [disabled]="!productEditForm.valid">Guardar</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

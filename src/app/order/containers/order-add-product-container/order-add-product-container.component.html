@@ -1,0 +1,8 @@
+<div>
+  <app-order-add-product [products]="products$ | async"></app-order-add-product>
+</div>
+<div>
+  <mat-paginator [length]="length$ | async" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+    (page)="changePage($event)">
+  </mat-paginator>
+</div>

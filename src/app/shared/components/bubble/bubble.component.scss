@@ -1,0 +1,45 @@
+.bubble-container{
+    position: relative;
+	z-index: 4;
+	width: 8.5em;
+    height: 10em;
+    .bubble-content {
+		position: absolute;
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+		left: 0;
+		right: 0;
+    }
+    .bubble-description {
+		color:#425563;
+		font-size: 0.75em;
+		display: block;
+		margin-top: 0.85em;
+    }
+    .bold {
+		font-weight: bold;
+    }
+    .bubble {
+		border: none;
+		width: 100px;
+		height: 100px;
+		background-color: #f1f1f1;
+	}
+	.bubble-plain {
+		margin: auto;
+		display: flex;
+		justify-content: center;
+		border-radius: 50%;
+    }
+    .wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .bubble-value {
+		font-size: 2.5em;
+		font-weight: bold;
+		color: #425563;
+	}
+}

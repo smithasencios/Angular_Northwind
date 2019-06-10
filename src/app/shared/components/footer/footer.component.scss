@@ -1,0 +1,21 @@
+.page-footer {
+  bottom: 0;
+  color: #fff;
+}
+.font-small {
+  font-size: 0.9rem;
+}
+.blue {
+  background-color: #2196f3 !important;
+}
+.footer-copyright {
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 0.6);
+  .text-center {
+    text-align: center !important;
+  }
+  a {
+    color: #fff;
+  }
+}
