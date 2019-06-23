@@ -57,5 +57,16 @@
     <div>
       <app-order-table #tableView [items]="productList" (updateQuantity)="UpdateQuantity($event)"></app-order-table>
     </div>
+    <div class="order-footer" *ngIf="productList.length > 0">
+      <mat-list>
+        <mat-list-item> Total Valor Venta: {{preOrderFooter.TotalValorVenta | currency:"USD"}} </mat-list-item>
+        <mat-list-item> IGV: {{preOrderFooter.ImpuestoGeneralVentas | currency:"USD"}}</mat-list-item>
+        <mat-list-item> Importe Total: {{preOrderFooter.ImporteTotal | currency:"USD"}} </mat-list-item>
+      </mat-list>
+    </div>
+    <div class="button-container" *ngIf="productList.length > 0">
+      <button mat-flat-button mat-dialog-close color="warn">Cancelar</button>
+      <button mat-flat-button color="primary" (click)="onSave()">Guardar</button>
+    </div>
   </div>
 </form>

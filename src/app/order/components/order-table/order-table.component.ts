@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
-import { PreOrder } from '../../models/pre-order';
+import { PreOrderHeader } from '../../models/pre-order-header';
 
 @Component({
   selector: 'app-order-table',
@@ -10,7 +10,7 @@ import { PreOrder } from '../../models/pre-order';
 export class OrderTableComponent implements OnInit, OnChanges {
 
   @Input()
-  items: PreOrder[];
+  items: PreOrderHeader[];
   @Output()
   updateQuantity: EventEmitter<any> = new EventEmitter<any>();
 

@@ -5,7 +5,8 @@ import { CustomerPopupContainerComponent } from '../customer-popup-container/cus
 import { Customer } from '../../models/customer';
 import { OrderAddProductContainerComponent } from '../order-add-product-container/order-add-product-container.component';
 import { Product } from '../../models/product';
-import { PreOrder } from '../../models/pre-order';
+import { PreOrderHeader } from '../../models/pre-order-header';
+import { PreOrderFooter } from '../../models/pre-order-footer';
 
 @Component({
   selector: 'app-order-new-container',
@@ -16,7 +17,9 @@ export class OrderNewContainerComponent implements OnInit {
 
   newForm: FormGroup;
 
-  productList: PreOrder[] = [];
+  productList: PreOrderHeader[] = [];
+  preOrderFooter: PreOrderFooter = PreOrderFooter.createEmptyInstance();
+
   constructor(private fb: FormBuilder, private dialog: MatDialog) {
     this.buildNewForm();
   }
@@ -65,12 +68,23 @@ export class OrderNewContainerComponent implements OnInit {
   }
 
   AddProductToList(item: Product): void {
-    const product = new PreOrder(item.id, item.product_name, item.standard_cost);
+    const product = new PreOrderHeader(item.id, item.product_name, item.standard_cost);
     this.productList.push(product);
     this.productList = [...this.productList];
+
+    this.preOrderFooter = new PreOrderFooter(this.productList);
   }
   UpdateQuantity(event: any): any {
-    this.productList[event.index].Quantity = Number(event.newValue);
+    const updatedProduct = { ...this.productList[event.index] };
+    updatedProduct.Quantity = Number(event.newValue);
+    updatedProduct.Total_Value = Number((updatedProduct.Quantity * updatedProduct.Unit_Price).toFixed(2));
+
+    this.productList[event.index] = updatedProduct;
     this.productList = [...this.productList];
+
+    this.preOrderFooter = new PreOrderFooter(this.productList);
+  }
+  onSave() {
+
   }
 }
