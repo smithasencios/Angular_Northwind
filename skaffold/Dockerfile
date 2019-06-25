@@ -1,4 +1,4 @@
-FROM node:10-alpine as build
+FROM node:10-alpine
 
 WORKDIR /src
 
@@ -15,4 +15,4 @@ RUN npm install
 
 ADD . .
 
-CMD ["./node_modules/.bin/ng", "serve", "--host", "0.0.0.0"]
+CMD ["./node_modules/.bin/ng","serve","--host","0.0.0.0","--disableHostCheck","true"]

@@ -21,6 +21,7 @@ export class CustomerPopupComponent implements OnInit {
   onSelect(event: any, row: Customer) {
     if (event.source.checked) {
       this.selectedCustomer = row;
+      
     }
   }
 
