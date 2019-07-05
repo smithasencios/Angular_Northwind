@@ -15,4 +15,4 @@ RUN npm install
 
 ADD . .
 
-CMD ["./node_modules/.bin/ng","serve","--host","0.0.0.0","--disableHostCheck","true"]
+CMD ["./node_modules/.bin/ng","serve","--host","0.0.0.0"]

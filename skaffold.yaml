@@ -2,7 +2,7 @@ apiVersion: skaffold/v1beta10
 kind: Config
 build:
   artifacts:
-  - image: angular-image
+  - image: course-frontend
     context: .
     sync:
       manual:

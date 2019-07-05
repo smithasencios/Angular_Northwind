@@ -2,10 +2,14 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: course-frontend
+  labels:
+    cf-app-name: course-frontend
 spec:
-  containers:
+  containers: 
   - name: course-frontend
-    image: angular-image
+    image: course-frontend
     ports:
     - containerPort: 4200
       name: http
+
+# https://codinglatte.com/posts/angular/using-os-environment-variables-in-angular-with-docker/
