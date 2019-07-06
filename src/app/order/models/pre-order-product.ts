@@ -1,4 +1,4 @@
-export class PreOrderHeader {
+export class PreOrderProduct{
     Product_Id: number;
     Description: string;
     Quantity: number;

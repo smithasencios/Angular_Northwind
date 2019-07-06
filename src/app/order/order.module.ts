@@ -14,6 +14,7 @@ import { OrderAddProductComponent } from './components/order-add-product/order-a
 import { OrderAddProductContainerComponent } from './containers/order-add-product-container/order-add-product-container.component';
 import { ProductEffects } from './state/effects/product.effects';
 import { OrderTableComponent } from './components/order-table/order-table.component';
+import { OrderEffects } from './state/effects/order.effects';
 
 @NgModule({
   declarations: [OrderMainContainerComponent, OrderNewContainerComponent, CustomerPopupContainerComponent,
@@ -23,7 +24,7 @@ import { OrderTableComponent } from './components/order-table/order-table.compon
     OrderRoutingModule,
     SharedModule,
     StoreModule.forFeature('order', reducers),
-    EffectsModule.forFeature([CustomerEffects, ProductEffects])
+    EffectsModule.forFeature([CustomerEffects, ProductEffects,OrderEffects])
   ],
   entryComponents: [CustomerPopupContainerComponent, OrderAddProductContainerComponent]
 })

@@ -1,14 +1,17 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromCustomerReducer from '../reducers/customer.reducer';
 import * as fromProductReducer from '../reducers/product.reducer';
+import * as fromOrderReducer from '../reducers/order.reducer';
 
 export interface OrderState {
     customer: fromCustomerReducer.State;
     product: fromProductReducer.State;
+    order: fromOrderReducer.State;
 }
 export const reducers: ActionReducerMap<OrderState> = {
     customer: fromCustomerReducer.CustomerReducer,
-    product: fromProductReducer.ProductReducer
+    product: fromProductReducer.ProductReducer,
+    order: fromOrderReducer.OrderReducer
 };
 
 export const getOrderModuleState = createFeatureSelector<OrderState>('order');
@@ -21,3 +24,5 @@ export const gettotalCustomerRecords = createSelector(getCustomerState, fromCust
 export const getProductState = createSelector(getOrderModuleState, state => state.product);
 export const getProducts = createSelector(getProductState, fromProductReducer.getProducts);
 export const gettotalProductRecords = createSelector(getProductState, fromProductReducer.getTotalProductRecords);
+
+/// Order State

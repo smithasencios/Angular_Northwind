@@ -5,8 +5,14 @@ import { CustomerPopupContainerComponent } from '../customer-popup-container/cus
 import { Customer } from '../../models/customer';
 import { OrderAddProductContainerComponent } from '../order-add-product-container/order-add-product-container.component';
 import { Product } from '../../models/product';
-import { PreOrderHeader } from '../../models/pre-order-header';
+import { PreOrderProduct } from '../../models/pre-order-product';
 import { PreOrderFooter } from '../../models/pre-order-footer';
+import { PreOrderCustomer } from '../../models/pre-order-customer';
+import { PreOrder, PreOrderDetail } from '../../models/pre-order';
+import * as orderActions from '../../state/actions/order.actions';
+import * as fromReducer from '../../state/reducers';
+import { Store, ActionsSubject } from '@ngrx/store';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-order-new-container',
@@ -15,12 +21,14 @@ import { PreOrderFooter } from '../../models/pre-order-footer';
 })
 export class OrderNewContainerComponent implements OnInit {
 
-  newForm: FormGroup;
-
-  productList: PreOrderHeader[] = [];
+  orderForm: FormGroup;
+  preOrderCustomer: PreOrderCustomer;
+  orderProductList: PreOrderProduct[] = [];
   preOrderFooter: PreOrderFooter = PreOrderFooter.createEmptyInstance();
+  preOrder: PreOrder = PreOrder.createEmptyInstance();
 
-  constructor(private fb: FormBuilder, private dialog: MatDialog) {
+  constructor(private fb: FormBuilder, private dialog: MatDialog,
+    private store: Store<fromReducer.OrderState>) {
     this.buildNewForm();
   }
 
@@ -28,7 +36,7 @@ export class OrderNewContainerComponent implements OnInit {
 
   }
   buildNewForm(): void {
-    this.newForm = this.fb.group({
+    this.orderForm = this.fb.group({
       id: ['', [Validators.required]],
       name: ['', [Validators.required]],
       company: ['', [Validators.required]],
@@ -44,13 +52,13 @@ export class OrderNewContainerComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((response: Customer) => {
       if (response) {
-        this.newForm.patchValue({
-          id: [response.id],
-          name: [response.name],
-          company: [response.company],
-          address: [response.address],
-          phone: [response.business_phone],
-          city: [response.city],
+        this.orderForm.patchValue({
+          id: response.id,
+          name: response.name,
+          company: response.company,
+          address: response.address,
+          phone: response.business_phone,
+          city: response.city,
         });
       }
     });
@@ -68,23 +76,28 @@ export class OrderNewContainerComponent implements OnInit {
   }
 
   AddProductToList(item: Product): void {
-    const product = new PreOrderHeader(item.id, item.product_name, item.standard_cost);
-    this.productList.push(product);
-    this.productList = [...this.productList];
+    const product = new PreOrderProduct(item.id, item.product_name, item.standard_cost);
+    this.orderProductList.push(product);
+    this.orderProductList = [...this.orderProductList];
 
-    this.preOrderFooter = new PreOrderFooter(this.productList);
+    this.preOrderFooter = new PreOrderFooter(this.orderProductList);
   }
   UpdateQuantity(event: any): any {
-    const updatedProduct = { ...this.productList[event.index] };
+    const updatedProduct = { ...this.orderProductList[event.index] };
     updatedProduct.Quantity = Number(event.newValue);
     updatedProduct.Total_Value = Number((updatedProduct.Quantity * updatedProduct.Unit_Price).toFixed(2));
 
-    this.productList[event.index] = updatedProduct;
-    this.productList = [...this.productList];
+    this.orderProductList[event.index] = updatedProduct;
+    this.orderProductList = [...this.orderProductList];
 
-    this.preOrderFooter = new PreOrderFooter(this.productList);
+    this.preOrderFooter = new PreOrderFooter(this.orderProductList);
   }
   onSave() {
+    const customer = { ...this.preOrderCustomer, ...this.orderForm.value };
+    this.preOrder.CustomerId = customer.id;
+    this.preOrder.OrderDate = moment(customer.fecha).format("YYYY/MM/DD");
+    this.preOrder.OrderDetails = PreOrderDetail.mapOrderDetail(this.orderProductList);
 
+    this.store.dispatch(new orderActions.AddOrder(this.preOrder));
   }
 }

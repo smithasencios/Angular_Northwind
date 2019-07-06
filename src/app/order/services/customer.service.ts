@@ -13,6 +13,7 @@ import { Customer } from '../models/customer';
 export class CustomerService {
 
   constructor(private http: HttpClient) { }
+
   getCustomers(request: GetCustomers): Observable<CustomerList> {
     return this.http.post<CustomerList>(`${environment.ApiUrl}customers/paginated`, request)
       .pipe(
@@ -22,4 +23,5 @@ export class CustomerService {
         })
       );
   }
+  
 }
