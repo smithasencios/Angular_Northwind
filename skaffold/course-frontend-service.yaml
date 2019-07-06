@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: course-frontend
+  name: course-frontend-svc
 spec:
   type: NodePort
   ports:
