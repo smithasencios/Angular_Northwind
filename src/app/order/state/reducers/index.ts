@@ -26,3 +26,6 @@ export const getProducts = createSelector(getProductState, fromProductReducer.ge
 export const gettotalProductRecords = createSelector(getProductState, fromProductReducer.getTotalProductRecords);
 
 /// Order State
+export const getOrderState = createSelector(getOrderModuleState, state => state.order);
+export const getOrders = createSelector(getOrderState, fromOrderReducer.getOrders);
+export const gettotalOrderRecords = createSelector(getOrderState, fromOrderReducer.getTotalOrderRecords);

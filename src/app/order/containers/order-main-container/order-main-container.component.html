@@ -1,3 +1,8 @@
-<p>
-  order-main-container works!
-</p>
+<div>
+    <app-order-list-table [orders]="orders$ | async"></app-order-list-table>
+    <div>
+        <mat-paginator [length]="length$ | async" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+            (page)="changePage($event)">
+        </mat-paginator>
+    </div>
+</div>

@@ -15,6 +15,15 @@ export class OrderEffects extends FrontendBaseEffect {
     }
 
     @Effect()
+    getOrders$ = this.actions$.pipe(
+        ofType<orderActions.LoadOrders>(orderActions.OrderActionTypes.LoadOrders),
+        switchMap(action => this.orderService.getOrders(action.request)
+            .pipe(
+                map(data => new orderActions.LoadOrdersComplete(data))
+            ))
+    );
+
+    @Effect()
     addOrder$ = this.actions$.pipe(
         ofType<orderActions.AddOrder>(orderActions.OrderActionTypes.AddOrder),
         switchMap(action => this.orderService.addOrder(action.request)

@@ -1,3 +1,26 @@
-<p>
-  order-list-table works!
-</p>
+<ngx-datatable #orderTable [footerHeight]="0" class="material" [headerHeight]="50" [columnMode]="'force'"
+  [rowHeight]="50" [rows]="orders">
+
+  <ngx-datatable-column name="Order Id" prop="order_id">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      {{value}}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Order Date" prop="order_date">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      {{value | date :'mediumDate'}}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Acciones">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <button mat-icon-button (click)="onRemoveItem()">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onViewDetails()">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

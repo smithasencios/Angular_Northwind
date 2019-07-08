@@ -8,9 +8,7 @@ import * as process from 'process';
 })
 export class AppComponent {
   title = 'frontend';
-  constructor(){
-    console.log("begin")
-    console.log(process.env)
-    console.log("end")
+  constructor() {
+
   }
 }
