@@ -12,7 +12,16 @@
       {{value | date :'mediumDate'}}
     </ng-template>
   </ngx-datatable-column>
-
+  <ngx-datatable-column name="Status" prop="status_name">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      {{value}}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Vendedor" prop="customer">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      {{value}}
+    </ng-template>
+  </ngx-datatable-column>
   <ngx-datatable-column name="Acciones">
     <ng-template ngx-datatable-cell-template let-value="value">
       <button mat-icon-button (click)="onRemoveItem()">

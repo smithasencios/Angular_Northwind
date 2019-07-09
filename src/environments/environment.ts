@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   ApiUrl: "http://192.168.39.190:30101/"
-  //you have to run this : minikube service northwind-api --url
+  //you have to run this : sudo minikube service northwind-api-svc --url
   //and copy the result in ApiUrl
 };
 
