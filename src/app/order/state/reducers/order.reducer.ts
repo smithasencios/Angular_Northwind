@@ -1,15 +1,18 @@
 import * as orderActions from '../actions/order.actions';
 import { OrderList } from '../../models/order-list';
 import { OrderListItem } from '../../models/order-list-item';
+import { OrderListDetailItem } from '../../models/order-list-detail-item';
 
 export interface State {
     totalRecords: number;
     orders: OrderListItem[];
+    orderListDetails: OrderListDetailItem[];
 }
 
 const initialState: State = {
     totalRecords: 0,
-    orders: []
+    orders: [],
+    orderListDetails: []
 };
 
 export function OrderReducer(state = initialState, action: orderActions.Actions): State {
@@ -30,6 +33,15 @@ export function OrderReducer(state = initialState, action: orderActions.Actions)
         case orderActions.OrderActionTypes.AddOrderComplete: {
             return state;
         }
+        case orderActions.OrderActionTypes.LoadOrdersDetail: {
+            return state;
+        }
+        case orderActions.OrderActionTypes.LoadOrdersDetailComplete: {
+            return {
+                ...state,
+                orderListDetails: action.payload.data
+            };
+        }
         default:
             return state;
     }
@@ -37,3 +49,4 @@ export function OrderReducer(state = initialState, action: orderActions.Actions)
 
 export const getOrders = (state: State) => state.orders;
 export const getTotalOrderRecords = (state: State) => state.totalRecords;
+export const getOrderListDetails = (state: State) => state.orderListDetails;

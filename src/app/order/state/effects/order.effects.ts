@@ -34,4 +34,13 @@ export class OrderEffects extends FrontendBaseEffect {
                 })
             ))
     );
+
+    @Effect()
+    getOrdersById$ = this.actions$.pipe(
+        ofType<orderActions.LoadOrdersDetail>(orderActions.OrderActionTypes.LoadOrdersDetail),
+        switchMap(action => this.orderService.getOrderById(action.orderId)
+            .pipe(
+                map(data => new orderActions.LoadOrdersDetailComplete(data))
+            ))
+    );
 }

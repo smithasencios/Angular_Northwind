@@ -1,8 +1,47 @@
 <div>
-    <app-order-list-table [orders]="orders$ | async"></app-order-list-table>
+    <div></div>
     <div>
-        <mat-paginator [length]="length$ | async" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-            (page)="changePage($event)">
-        </mat-paginator>
+        <app-table-view #tableView [items]="orders$ | async" [columns]=" columns" [detailTemplate]="detailTemplate">
+
+        </app-table-view>
+        <div>
+            <mat-paginator [length]="length$ | async" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+                (page)="changePage($event)">
+            </mat-paginator>
+        </div>
+
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template #orderIdCellTemplate>
+            <div class="order-id">
+                <div>
+                    <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded"
+                        [class.datatable-icon-down]="expanded" title="Expand/Collapse Row"
+                        (click)="toggleExpandRow(row)">
+                    </a>
+                </div>
+                <div>
+                    {{ row.order_id }}
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template let-row="row" ngx-datatable-cell-template #orderDateCellTemplate>
+            {{row.order_date | date :'mediumDate'}}
+        </ng-template>
+
+        <ng-template let-row="row" ngx-datatable-cell-template #accionesCellTemplate>
+            <div *ngIf="row.status_id === '0'">
+                <button mat-icon-button (click)="onRemoveItem()">
+                    <mat-icon>delete_forever</mat-icon>
+                </button>
+                <button mat-icon-button (click)="onViewDetails()">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </div>
+        </ng-template>
+
+        <ng-template #detailTemplate let-row="row">
+            dsdsdsd
+        </ng-template>
+
     </div>
 </div>

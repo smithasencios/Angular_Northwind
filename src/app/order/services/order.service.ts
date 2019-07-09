@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { OrderList } from '../models/order-list';
 import { GetOrders } from '../models/get-orders';
+import { OrderListDetail } from '../models/order-list-detail';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,8 @@ export class OrderService {
       .pipe(
         map((response: number) => response)
       );
+  }
+  getOrderById(id: number): Observable<OrderListDetail> {
+    return this.http.get<OrderListDetail>(`${environment.ApiUrl}orders/${id}`);
   }
 }

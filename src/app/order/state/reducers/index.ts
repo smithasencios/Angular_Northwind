@@ -29,3 +29,4 @@ export const gettotalProductRecords = createSelector(getProductState, fromProduc
 export const getOrderState = createSelector(getOrderModuleState, state => state.order);
 export const getOrders = createSelector(getOrderState, fromOrderReducer.getOrders);
 export const gettotalOrderRecords = createSelector(getOrderState, fromOrderReducer.getTotalOrderRecords);
+export const getOrdersDetails = createSelector(getOrderState, fromOrderReducer.getOrderListDetails);

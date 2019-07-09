@@ -1,0 +1,10 @@
+.table-results-base {
+	min-height: 500px;
+	position: relative;
+}
+.ngx-datatable.ngx-table {
+	.datatable-body .datatable-row-detail {
+		height: auto !important;
+		padding: 5px 35px !important;
+	}
+}

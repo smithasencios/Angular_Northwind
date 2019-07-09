@@ -15,11 +15,10 @@ import { OrderAddProductContainerComponent } from './containers/order-add-produc
 import { ProductEffects } from './state/effects/product.effects';
 import { OrderTableComponent } from './components/order-table/order-table.component';
 import { OrderEffects } from './state/effects/order.effects';
-import { OrderListTableComponent } from './components/order-list-table/order-list-table.component';
 
 @NgModule({
   declarations: [OrderMainContainerComponent, OrderNewContainerComponent, CustomerPopupContainerComponent,
-    CustomerPopupComponent, OrderAddProductComponent, OrderAddProductContainerComponent, OrderTableComponent, OrderListTableComponent],
+    CustomerPopupComponent, OrderAddProductComponent, OrderAddProductContainerComponent, OrderTableComponent],
   imports: [
     CommonModule,
     OrderRoutingModule,

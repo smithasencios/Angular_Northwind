@@ -2,11 +2,14 @@ import { Action } from '@ngrx/store';
 import { PreOrder } from '../../models/pre-order';
 import { GetOrders } from '../../models/get-orders';
 import { OrderList } from '../../models/order-list';
+import { OrderListDetail } from '../../models/order-list-detail';
 export enum OrderActionTypes {
     AddOrder = '[Order] Add Order',
     AddOrderComplete = '[Order] Add Order Complete',
     LoadOrders = '[Order] Load Orders',
     LoadOrdersComplete = '[Order] Load Orders Complete',
+    LoadOrdersDetail = '[Order] Load Orders Detail',
+    LoadOrdersDetailComplete = '[Order] Load Orders Detail Complete',
     OnError = '[Order] On Error'
 }
 
@@ -33,9 +36,19 @@ export class LoadOrdersComplete implements Action {
     constructor(public payload: OrderList) { }
 }
 
+export class LoadOrdersDetail implements Action {
+    readonly type = OrderActionTypes.LoadOrdersDetail;
+    constructor(public orderId: number) { }
+}
+export class LoadOrdersDetailComplete implements Action {
+    readonly type = OrderActionTypes.LoadOrdersDetailComplete;
+    constructor(public payload: OrderListDetail) { }
+}
 export type Actions =
     | AddOrder
     | AddOrderComplete
     | LoadOrders
     | LoadOrdersComplete
+    | LoadOrdersDetail
+    | LoadOrdersDetailComplete
     | OnError;
