@@ -1,3 +1,7 @@
 export class OrderListDetailItem {
-    Order_Id: number;
+    OrderId: number;
+    Quantity: number;
+    UnitPrice: number;
+    ProductName: string;
+    Total: number;
 }

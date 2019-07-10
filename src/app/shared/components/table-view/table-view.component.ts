@@ -8,6 +8,7 @@ import { Component, OnInit, Input, TemplateRef, ViewChild, ViewEncapsulation } f
 })
 export class TableViewComponent<T> implements OnInit {
 
+  @Input() minTableHeight: number = 500;
   @Input() items: object[] = [];
   @Input() columns: object[] = [];
   @Input() limit?: number;

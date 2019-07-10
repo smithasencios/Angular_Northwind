@@ -2,17 +2,18 @@ import * as orderActions from '../actions/order.actions';
 import { OrderList } from '../../models/order-list';
 import { OrderListItem } from '../../models/order-list-item';
 import { OrderListDetailItem } from '../../models/order-list-detail-item';
+import { OrderListDetail } from '../../models/order-list-detail';
 
 export interface State {
     totalRecords: number;
     orders: OrderListItem[];
-    orderListDetails: OrderListDetailItem[];
+    orderListDetails: OrderListDetail;
 }
 
 const initialState: State = {
     totalRecords: 0,
     orders: [],
-    orderListDetails: []
+    orderListDetails: new OrderListDetail()
 };
 
 export function OrderReducer(state = initialState, action: orderActions.Actions): State {
@@ -39,7 +40,7 @@ export function OrderReducer(state = initialState, action: orderActions.Actions)
         case orderActions.OrderActionTypes.LoadOrdersDetailComplete: {
             return {
                 ...state,
-                orderListDetails: action.payload.data
+                orderListDetails: action.payload
             };
         }
         default:

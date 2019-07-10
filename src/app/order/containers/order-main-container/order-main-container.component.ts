@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { OrderListItem } from '../../models/order-list-item';
 import { TableViewComponent } from 'src/app/shared/components/table-view/table-view.component';
 import { OrderListDetailItem } from '../../models/order-list-detail-item';
+import { OrderListDetail } from '../../models/order-list-detail';
 
 @Component({
   selector: 'app-order-main-container',
@@ -16,8 +17,6 @@ import { OrderListDetailItem } from '../../models/order-list-detail-item';
 export class OrderMainContainerComponent implements OnInit, AfterViewInit {
 
   orders$: Observable<OrderListItem[]> = this.store.select(fromReducer.getOrders);
-  orderDetails$: Observable<OrderListDetailItem[]> = this.store.select(fromReducer.getOrdersDetails);
-
   length$: Observable<number> = this.store.select(fromReducer.gettotalOrderRecords);
 
   request: GetOrders;
@@ -37,6 +36,7 @@ export class OrderMainContainerComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     this.columns = this.getColumns();
+    this.detailColumns = this.getDetailColumns();
     this.ref.detectChanges();
   }
 
@@ -60,12 +60,12 @@ export class OrderMainContainerComponent implements OnInit, AfterViewInit {
       },
       {
         name: "Customer",
-        prop: "customer",
+        prop: "Customer",
         flexGrow: 1
       },
       {
         name: "Status",
-        prop: "status_name",
+        prop: "Status_Name",
         flexGrow: 0.5
       },
       {
@@ -80,9 +80,29 @@ export class OrderMainContainerComponent implements OnInit, AfterViewInit {
       }
     ];
   }
+
+  private getDetailColumns(): object[] {
+    return [
+      {
+        name: "Product Name",
+        prop: "ProductName",
+        flexGrow: 1
+      },
+      {
+        name: "Quantity",
+        prop: "Quantity",
+        flexGrow: 1
+      },
+      {
+        name: "UnitPrice",
+        prop: "UnitPrice",
+        flexGrow: 0.5
+      }
+    ];
+  }
+
   toggleExpandRow(row: any) {
     this.tableView.toggleExpandRow(row);
-    this.store.dispatch(new orderActions.LoadOrdersDetail(row.order_id));
     this.ref.detectChanges();
   }
 }

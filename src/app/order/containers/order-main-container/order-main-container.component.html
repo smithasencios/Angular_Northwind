@@ -1,7 +1,7 @@
 <div>
     <div></div>
     <div>
-        <app-table-view #tableView [items]="orders$ | async" [columns]=" columns" [detailTemplate]="detailTemplate">
+        <app-table-view #tableView [items]="orders$ | async" [columns]="columns" [detailTemplate]="detailTemplate">
 
         </app-table-view>
         <div>
@@ -19,17 +19,17 @@
                     </a>
                 </div>
                 <div>
-                    {{ row.order_id }}
+                    {{ row.Order_Id }}
                 </div>
             </div>
         </ng-template>
 
         <ng-template let-row="row" ngx-datatable-cell-template #orderDateCellTemplate>
-            {{row.order_date | date :'mediumDate'}}
+            {{row.Order_Date | date :'mediumDate'}}
         </ng-template>
 
         <ng-template let-row="row" ngx-datatable-cell-template #accionesCellTemplate>
-            <div *ngIf="row.status_id === '0'">
+            <div *ngIf="row.Status_Id === '0'">
                 <button mat-icon-button (click)="onRemoveItem()">
                     <mat-icon>delete_forever</mat-icon>
                 </button>
@@ -40,7 +40,22 @@
         </ng-template>
 
         <ng-template #detailTemplate let-row="row">
-            dsdsdsd
+            <div>
+                <div><strong>Detalle</strong></div>
+                <div>
+                    <app-table-view #detailTableView [items]="row.Data.data" [columns]="detailColumns"
+                        [minTableHeight]="0">
+                    </app-table-view>
+                </div>
+                <div class="order-footer">
+                    <mat-list>
+                        <mat-list-item> Total Valor Venta: {{row.Data.TotalValorVenta | currency:"USD"}}
+                        </mat-list-item>
+                        <mat-list-item> IGV: {{row.Data.ImpuestoGeneralVentas | currency:"USD"}}</mat-list-item>
+                        <mat-list-item> Importe Total: {{row.Data.ImporteTotal | currency:"USD"}} </mat-list-item>
+                    </mat-list>
+                </div>
+            </div>
         </ng-template>
 
     </div>
