@@ -13,6 +13,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { FooterComponent } from './components/footer/footer.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { TableViewComponent } from './components/table-view/table-view.component';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [NavBarComponent, AppConfirmComponent, BubbleComponent, DecimalOnlyDirective, FooterComponent, TableViewComponent],
@@ -29,6 +30,6 @@ import { TableViewComponent } from './components/table-view/table-view.component
     MaterialModule, FormsModule, ReactiveFormsModule, DecimalOnlyDirective,
     HighchartsChartModule, FooterComponent, NgxDatatableModule, TableViewComponent],
   entryComponents: [AppConfirmComponent],
-  providers: [AppConfirmService, SnackbarWrapperService]
+  providers: [AppConfirmService, SnackbarWrapperService,AuthService]
 })
 export class SharedModule { }

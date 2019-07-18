@@ -24,5 +24,9 @@
         </div>
       </li>
     </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <button (click)="login()" *ngIf="!isAuthenticated">Log In</button>
+      <button (click)="logout()" *ngIf="isAuthenticated">Log Out</button>
+    </ul>
   </div>
 </nav>
