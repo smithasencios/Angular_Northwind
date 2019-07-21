@@ -17,6 +17,8 @@ import { EmployeeCreate2PopupContainerComponent }
   from './containers/employee-create2-popup-container/employee-create2-popup-container.component';
 import { EmployeeCreate2PopupComponent } from './components/employee-create2-popup/employee-create2-popup.component';
 import { EmployeeSessionsErrorsComponent } from './components/employee-sessions-errors/employee-sessions-errors.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthHttpInterceptor } from '../shared/interceptors/AuthHttpInterceptor';
 
 @NgModule({
   declarations: [EmployeeMainContainerComponent, EmployeeListComponent,

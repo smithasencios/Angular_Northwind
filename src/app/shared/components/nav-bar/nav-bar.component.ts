@@ -29,6 +29,7 @@ export class NavBarComponent implements OnInit {
     this.authService.profile.subscribe(profile => {
       this.profile = profile;
     });
+    
   }
 
   async login() {

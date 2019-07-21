@@ -14,6 +14,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { TableViewComponent } from './components/table-view/table-view.component';
 import { AuthService } from './services/auth.service';
+import { AuthHttpInterceptor } from './interceptors/AuthHttpInterceptor';
 
 @NgModule({
   declarations: [NavBarComponent, AppConfirmComponent, BubbleComponent, DecimalOnlyDirective, FooterComponent, TableViewComponent],
@@ -30,6 +31,6 @@ import { AuthService } from './services/auth.service';
     MaterialModule, FormsModule, ReactiveFormsModule, DecimalOnlyDirective,
     HighchartsChartModule, FooterComponent, NgxDatatableModule, TableViewComponent],
   entryComponents: [AppConfirmComponent],
-  providers: [AppConfirmService, SnackbarWrapperService,AuthService]
+  providers: [AppConfirmService, SnackbarWrapperService,AuthService,AuthHttpInterceptor]
 })
 export class SharedModule { }

@@ -25,6 +25,8 @@ export class AuthService {
    */
   async getAuth0Client(): Promise<Auth0Client> {
     if (!this.auth0Client) {
+      console.log('%cObtener informacion del usuario', "color: blue; font-size: x-large");
+      
       this.auth0Client = await createAuth0Client(this.config);
 
       // Provide the current value of isAuthenticated
@@ -34,12 +36,14 @@ export class AuthService {
       this.isAuthenticated.subscribe(async isAuthenticated => {
         if (isAuthenticated) {
           this.profile.next(await this.auth0Client.getUser());
-
           return;
         }
 
         this.profile.next(null);
       });
+
+    } else {
+      console.log('%cObtener informacion del usuario--La Instancia ya existe', "color: blue; font-size: x-large");
     }
 
     return this.auth0Client;
