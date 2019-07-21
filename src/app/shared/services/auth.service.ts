@@ -15,8 +15,10 @@ export class AuthService {
 
   // Auth0 application configuration
   config = {
+    audience:'http://192.168.39.190:30101',
     domain: environment.Auth0Domain,
     client_id: environment.Auth0ClientId,
+    responseType: 'token id_token',
     redirect_uri: `${window.location.origin}/callback`
   };
 

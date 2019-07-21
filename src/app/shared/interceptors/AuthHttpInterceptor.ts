@@ -15,9 +15,9 @@ export class AuthHttpInterceptor implements HttpInterceptor {
     }
 
     private async handleAccess(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
+        
         const authService = await this.authService.getAuth0Client();
         const token = await authService.getTokenSilently();
-
         let changedRequest = request;
         // HttpHeader object immutable - copy values
         const headerSettings: { [name: string]: string | string[]; } = {};
@@ -37,9 +37,8 @@ export class AuthHttpInterceptor implements HttpInterceptor {
 
         return next.handle(changedRequest).pipe(
             catchError((err) => {
-                console.log('no se pudo validar el token')
                 if (err.status === 401) {
-                    this.router.navigate(['/login'], {
+                    this.router.navigate(['/home'], {
                         queryParams: { redirectUrl: this.router.routerState.snapshot.url },
                     });
                 }
