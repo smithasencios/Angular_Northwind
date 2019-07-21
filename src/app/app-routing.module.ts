@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './shared/guards/authguard.';
 
 const routes: Routes = [
   {
@@ -10,6 +11,7 @@ const routes: Routes = [
   {
     path: 'employee',
     loadChildren: './employee/employee.module#EmployeeModule'
+    // canLoad: [AuthGuard]
   },
   {
     path: 'product',

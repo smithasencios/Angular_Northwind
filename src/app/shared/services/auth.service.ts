@@ -19,7 +19,8 @@ export class AuthService {
     domain: environment.Auth0Domain,
     client_id: environment.Auth0ClientId,
     responseType: 'token id_token',
-    redirect_uri: `${window.location.origin}/callback`
+    redirect_uri: `${window.location.origin}/callback`,
+    scope: 'openid profile'
   };
 
   /**
@@ -38,6 +39,7 @@ export class AuthService {
       this.isAuthenticated.subscribe(async isAuthenticated => {
         if (isAuthenticated) {
           this.profile.next(await this.auth0Client.getUser());
+          console.log(await this.auth0Client.getUser())
           return;
         }
 
