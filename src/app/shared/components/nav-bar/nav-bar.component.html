@@ -7,21 +7,11 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/employee" routerLinkActive="active">Empleados</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/product" routerLinkActive="active">Productos</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          Ventas
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" routerLink="/order" routerLinkActive="active">Lista</a>
-          <a class="dropdown-item" routerLink="/order/manage" routerLinkActive="active">Nueva Orden</a>
-        </div>
+      <li class="nav-item {{item.MenuStyle}}" *ngFor="let item of menu">
+
+        <ng-container [ngTemplateOutlet]="item.SubMenu.length === 0 ? SingleMenu : SpecialMenu"
+          [ngTemplateOutletContext]="{ row: item }">
+        </ng-container>
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
@@ -30,3 +20,18 @@
     </ul>
   </div>
 </nav>
+
+<ng-template let-row="row" #SingleMenu>
+  <a class="nav-link" routerLink="{{row.MenuLink}}" routerLinkActive="active">{{row.MenuOption}}</a>
+</ng-template>
+
+<ng-template let-row="row" #SpecialMenu>
+  <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+    aria-expanded="false">
+    {{row.MenuOption}}
+  </a>
+  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <a class="dropdown-item" *ngFor="let item of row.SubMenu" routerLink="{{item.MenuLink}}"
+      routerLinkActive="active">{{item.MenuOption}}</a>
+  </div>
+</ng-template>

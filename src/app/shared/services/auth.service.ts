@@ -20,7 +20,7 @@ export class AuthService {
     client_id: environment.Auth0ClientId,
     responseType: 'token id_token',
     redirect_uri: `${window.location.origin}/callback`,
-    scope: 'openid profile'
+    scope: 'openid profile email read:empleados'
   };
 
   /**
@@ -28,7 +28,7 @@ export class AuthService {
    */
   async getAuth0Client(): Promise<Auth0Client> {
     if (!this.auth0Client) {
-      console.log('%cObtener informacion del usuario', "color: blue; font-size: x-large");
+      //console.log('%cObtener informacion del usuario', "color: blue; font-size: x-large");
       
       this.auth0Client = await createAuth0Client(this.config);
 
@@ -39,7 +39,6 @@ export class AuthService {
       this.isAuthenticated.subscribe(async isAuthenticated => {
         if (isAuthenticated) {
           this.profile.next(await this.auth0Client.getUser());
-          console.log(await this.auth0Client.getUser())
           return;
         }
 
@@ -47,7 +46,7 @@ export class AuthService {
       });
 
     } else {
-      console.log('%cObtener informacion del usuario--La Instancia ya existe', "color: blue; font-size: x-large");
+      //console.log('%cObtener informacion del usuario--La Instancia ya existe', "color: blue; font-size: x-large");
     }
 
     return this.auth0Client;

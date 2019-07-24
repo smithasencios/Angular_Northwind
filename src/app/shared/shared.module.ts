@@ -16,6 +16,7 @@ import { TableViewComponent } from './components/table-view/table-view.component
 import { AuthService } from './services/auth.service';
 import { AuthHttpInterceptor } from './interceptors/AuthHttpInterceptor';
 import { AuthGuard } from './guards/authguard.';
+import { NavBarService } from './components/nav-bar/nav-bar.service';
 
 @NgModule({
   declarations: [NavBarComponent, AppConfirmComponent, BubbleComponent, DecimalOnlyDirective, FooterComponent, TableViewComponent],
@@ -32,6 +33,6 @@ import { AuthGuard } from './guards/authguard.';
     MaterialModule, FormsModule, ReactiveFormsModule, DecimalOnlyDirective,
     HighchartsChartModule, FooterComponent, NgxDatatableModule, TableViewComponent],
   entryComponents: [AppConfirmComponent],
-  providers: [AppConfirmService, SnackbarWrapperService, AuthService, AuthHttpInterceptor, AuthGuard]
+  providers: [AppConfirmService, SnackbarWrapperService, AuthService, AuthHttpInterceptor, AuthGuard,NavBarService]
 })
 export class SharedModule { }

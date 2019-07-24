@@ -15,7 +15,7 @@ export class AuthHttpInterceptor implements HttpInterceptor {
     }
 
     private async handleAccess(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
-        
+
         const authService = await this.authService.getAuth0Client();
         const token = await authService.getTokenSilently();
         let changedRequest = request;
