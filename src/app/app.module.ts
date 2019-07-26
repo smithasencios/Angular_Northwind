@@ -14,8 +14,9 @@ import { environment } from '../environments/environment';
 import { AppEffects } from './state/effects/app.effects';
 import { AuthHttpInterceptor } from './auth/interceptors/AuthHttpInterceptor';
 import { CallbackComponent } from './auth/callback/callback.component';
-import { AuthService } from './auth/services/auth.service';
+import { AuthenticationService } from './auth/services/authentication.service';
 import { AuthGuard } from './auth/guards/authguard.';
+import { AuthorizationService } from './auth/services/authorization.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { AuthGuard } from './auth/guards/authguard.';
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [
-    AuthService,
+    AuthenticationService,
+    AuthorizationService,
     AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,

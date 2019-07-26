@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   ApiUrl: "http://192.168.39.190:30101/",
   Auth0ClientId:"V9XlxIdGhcS8gv0KyVdKZEXhs9rDqY8P",
-  Auth0Domain:"dev-uq9rrgqz.auth0.com"
+  Auth0Domain:"dev-uq9rrgqz.auth0.com",
+  AuthAudience:"http://192.168.39.190:30101"
   //you have to run this : sudo minikube service northwind-api-svc --url
   //and copy the result in ApiUrl
 };

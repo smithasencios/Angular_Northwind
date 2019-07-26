@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError as observableThrowError, from } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthService } from '../services/auth.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Injectable()
 export class AuthHttpInterceptor implements HttpInterceptor {
 
-    constructor(private authService: AuthService, private router: Router) { }
+    constructor(private authentication: AuthenticationService, private router: Router) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return from(this.handleAccess(req, next));
@@ -16,7 +16,7 @@ export class AuthHttpInterceptor implements HttpInterceptor {
 
     private async handleAccess(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
 
-        const authService = await this.authService.getAuth0Client();
+        const authService = await this.authentication.getAuth0Client();
         const token = await authService.getTokenSilently();
         let changedRequest = request;
         // HttpHeader object immutable - copy values

@@ -13,7 +13,9 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { FooterComponent } from './components/footer/footer.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { TableViewComponent } from './components/table-view/table-view.component';
-import { NavBarService } from './components/nav-bar/nav-bar.service';
+import { LocalStorageReaderService } from './services/local-storage/local-storage-reader.service';
+import { LocalStorageWriterService } from './services/local-storage/local-storage-writer.service';
+import { LocalStorage } from './services/local-storage/local-storage';
 
 @NgModule({
   declarations: [NavBarComponent, AppConfirmComponent, BubbleComponent, DecimalOnlyDirective, FooterComponent, TableViewComponent],
@@ -30,6 +32,12 @@ import { NavBarService } from './components/nav-bar/nav-bar.service';
     MaterialModule, FormsModule, ReactiveFormsModule, DecimalOnlyDirective,
     HighchartsChartModule, FooterComponent, NgxDatatableModule, TableViewComponent],
   entryComponents: [AppConfirmComponent],
-  providers: [AppConfirmService, SnackbarWrapperService, NavBarService]
+  providers: [
+    AppConfirmService,
+    SnackbarWrapperService,
+    LocalStorage,
+    LocalStorageReaderService,
+    LocalStorageWriterService
+  ]
 })
 export class SharedModule { }

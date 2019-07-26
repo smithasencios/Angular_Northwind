@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/auth/services/auth.service';
+import { AuthenticationService } from 'src/app/auth/services/authentication.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
 })
 export class CallbackComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authenticationService: AuthenticationService, private router: Router) {}
 
   async ngOnInit() {
-    const client = await this.authService.getAuth0Client();
+    const client = await this.authenticationService.getAuth0Client();
 
     // Handle the redirect from Auth0
     const result = await client.handleRedirectCallback();
@@ -22,8 +22,8 @@ export class CallbackComponent implements OnInit {
       result.appState && result.appState.target ? result.appState.target : '';
 
     // Update observables
-    this.authService.isAuthenticated.next(await client.isAuthenticated());
-    this.authService.profile.next(await client.getUser())
+    this.authenticationService.isAuthenticated.next(await client.isAuthenticated());
+    this.authenticationService.profile.next(await client.getUser())
 
     // Redirect away
     this.router.navigate([targetRoute]);

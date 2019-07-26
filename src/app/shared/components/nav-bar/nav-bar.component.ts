@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../auth/services/auth.service';
+import { AuthenticationService } from '../../../auth/services/authentication.service';
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
-import { Permission, NavBarService } from './nav-bar.service';
 import { Menu } from '../../models/menu';
+import { AuthorizationService } from 'src/app/auth/services/authorization.service';
+import { Permission } from '../../models/permission';
 
 @Component({
   selector: 'app-nav-bar',
@@ -17,7 +18,7 @@ export class NavBarComponent implements OnInit {
 
   private auth0Client: Auth0Client;
 
-  constructor(private authService: AuthService, private navBarService: NavBarService) { }
+  constructor(private authService: AuthenticationService, private authorizationService: AuthorizationService) { }
 
   async ngOnInit() {
     // Get an instance of the Auth0 client
@@ -32,7 +33,7 @@ export class NavBarComponent implements OnInit {
       this.profile = profile;
 
       if (profile) {
-        this.navBarService.getPermissionsByUserId(profile.sub)
+        this.authorizationService.getPermissionsByUserId(profile.sub)
           .subscribe((response: any) => {
             this.setMenuOptions(response.data);
 
