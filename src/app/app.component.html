@@ -1,7 +1,9 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
 <div class="container-fluid">
-    <app-nav-bar></app-nav-bar>
+    <app-nav-bar [menu]="menu" [isAuthenticated]="isAuthenticated" (login)="login()" (logout)="logout()">
+    </app-nav-bar>
+
     <div class="general-container">
         <router-outlet></router-outlet>
     </div>

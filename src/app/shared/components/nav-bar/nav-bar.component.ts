@@ -1,97 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, Output, EventEmitter, Input } from '@angular/core';
 import { AuthenticationService } from '../../../auth/services/authentication.service';
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
 import { Menu } from '../../models/menu';
 import { AuthorizationService } from 'src/app/auth/services/authorization.service';
 import { Permission } from '../../models/permission';
+import { OuterSubscriber } from 'rxjs/internal/OuterSubscriber';
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss']
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent {
 
-  isAuthenticated = false;
-  profile: any;
-  menu: Menu[] = [];
+  @Input()
+  isAuthenticated: boolean;
+  @Input()
+  menu: Menu[];
+  @Output()
+  login: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  logout: EventEmitter<any> = new EventEmitter<any>();
 
-  private auth0Client: Auth0Client;
+  constructor() { }
 
-  constructor(private authService: AuthenticationService, private authorizationService: AuthorizationService) { }
-
-  async ngOnInit() {
-    // Get an instance of the Auth0 client
-    this.auth0Client = await this.authService.getAuth0Client();
-    // Watch for changes to the isAuthenticated state
-    this.authService.isAuthenticated.subscribe(value => {
-      this.isAuthenticated = value;
-    });
-
-    // Watch for changes to the profile data
-    this.authService.profile.subscribe(profile => {
-      this.profile = profile;
-
-      if (profile) {
-        this.authorizationService.getPermissionsByUserId(profile.sub)
-          .subscribe((response: any) => {
-            this.setMenuOptions(response.data);
-
-          })
-      }
-    });
-
+  async onLogin() {
+    await this.login.emit();
   }
 
-  async login() {
-    await this.auth0Client.loginWithRedirect({ redirect_uri: `${window.location.origin}/callback` });
+  onLogout() {
+    this.logout.emit();
   }
-
-  /**
-   * Logs the user out of the applicaion, as well as on Auth0
-   */
-  logout() {
-    this.auth0Client.logout({
-      client_id: this.authService.config.client_id,
-      returnTo: window.location.origin
-    });
-  }
-
-  setMenuOptions(permissions: Permission[]): void {
-    if (!permissions) {
-      this.menu = [];
-    }
-
-    this.menu = this.verifyPermissions(this.getMenu(), permissions);
-  }
-
-  getMenu(): Menu[] {
-    let options: Menu[] = [
-      Menu.CreateInstance("/employee", "Empleados", "read:empleados"),
-      Menu.CreateInstance("/product", "Productos", "read:productos"),
-      Menu.CreateInstance("/order", "Ventas", "read:orders", "dropdown",
-        [
-          Menu.CreateInstance("/order", "Ordenes", "read:orders"),
-          Menu.CreateInstance("/order/manage", "Nueva Orden", "add:orders")
-        ]),
-    ];
-    return options;
-  }
-
-  verifyPermissions(menuOptions: Menu[], permissions: Permission[]): Menu[] {
-    if (menuOptions.length === 0) {
-      return []
-    }
-    return menuOptions.filter((menuOption: Menu) => {
-      const hasPermissions = permissions.some((permission: Permission) => {
-        return menuOption.MenuPermissionName === permission.permission_name;
-      });
-      menuOption.SubMenu = this.verifyPermissions(menuOption.SubMenu, permissions);
-      return hasPermissions;
-    });
-
-  }
-
 }
 
 
