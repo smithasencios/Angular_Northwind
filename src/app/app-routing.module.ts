@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from './shared/guards/authguard.';
+import { AuthGuard } from './auth/guards/authguard.';
+import { CallbackComponent } from './auth/callback/callback.component';
 
 const routes: Routes = [
   {
@@ -10,16 +11,18 @@ const routes: Routes = [
   },
   {
     path: 'employee',
-    loadChildren: './employee/employee.module#EmployeeModule'
-    // canLoad: [AuthGuard]
+    loadChildren: './employee/employee.module#EmployeeModule',
+    canLoad: [AuthGuard]
   },
   {
     path: 'product',
-    loadChildren: './product/product.module#ProductModule'
+    loadChildren: './product/product.module#ProductModule',
+    canLoad: [AuthGuard]
   },
   {
     path: 'order',
-    loadChildren: './order/order.module#OrderModule'
+    loadChildren: './order/order.module#OrderModule',
+    canLoad: [AuthGuard]
   },
   {
     path: 'home',
@@ -27,7 +30,7 @@ const routes: Routes = [
   },
   {
     path: 'callback',
-    loadChildren: './login/login.module#LoginModule'
+    component: CallbackComponent
   }
 ];
 

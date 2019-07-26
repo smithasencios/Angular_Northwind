@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../auth/services/auth.service';
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
 import { Permission, NavBarService } from './nav-bar.service';
 import { Menu } from '../../models/menu';

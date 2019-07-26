@@ -13,9 +13,6 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { FooterComponent } from './components/footer/footer.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { TableViewComponent } from './components/table-view/table-view.component';
-import { AuthService } from './services/auth.service';
-import { AuthHttpInterceptor } from './interceptors/AuthHttpInterceptor';
-import { AuthGuard } from './guards/authguard.';
 import { NavBarService } from './components/nav-bar/nav-bar.service';
 
 @NgModule({
@@ -33,6 +30,6 @@ import { NavBarService } from './components/nav-bar/nav-bar.service';
     MaterialModule, FormsModule, ReactiveFormsModule, DecimalOnlyDirective,
     HighchartsChartModule, FooterComponent, NgxDatatableModule, TableViewComponent],
   entryComponents: [AppConfirmComponent],
-  providers: [AppConfirmService, SnackbarWrapperService, AuthService, AuthHttpInterceptor, AuthGuard,NavBarService]
+  providers: [AppConfirmService, SnackbarWrapperService, NavBarService]
 })
 export class SharedModule { }
