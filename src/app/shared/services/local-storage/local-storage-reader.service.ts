@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import * as fromRoot from '../../../state/reducers/index';
 import { LocalStorage } from './local-storage';
 import { AuthenticationService } from 'src/app/auth/services/authentication.service';
 
@@ -15,7 +13,7 @@ export class LocalStorageReaderService {
 		});
 	}
 
-	getLearningStorage(): Map<string, any> {
+	getLocalStorage(): Map<string, any> {
 		const localStorageValue = JSON.parse(this.getStorageValue(`${localStorage.localStorageKey}_${this.userId}`));
 		const store = localStorageValue || [];
 		return new Map<string, any>(store);

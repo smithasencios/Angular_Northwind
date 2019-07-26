@@ -4,6 +4,9 @@ import { AuthorizationService } from './auth/services/authorization.service';
 import { Menu } from './shared/models/menu';
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
 import { Permission } from './shared/models/permission';
+import * as fromReducer from './state/reducers/index';
+import { Store } from '@ngrx/store';
+import * as storageActions from './state/actions/storage.actions';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +21,8 @@ export class AppComponent implements OnInit {
   private auth0Client: Auth0Client;
 
   constructor(private authService: AuthenticationService,
-    private authorizationService: AuthorizationService) {
+    private authorizationService: AuthorizationService,
+    private store: Store<fromReducer.State>) {
 
   }
 
@@ -35,6 +39,7 @@ export class AppComponent implements OnInit {
       if (profile) {
         this.authorizationService.getPermissionsByUserId(profile.sub)
           .subscribe((response: any) => {
+            this.store.dispatch(new storageActions.UpdateStorage("permissions",response.data));
             this.setMenuOptions(response.data);
           })
       }

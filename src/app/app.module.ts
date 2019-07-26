@@ -17,6 +17,7 @@ import { CallbackComponent } from './auth/callback/callback.component';
 import { AuthenticationService } from './auth/services/authentication.service';
 import { AuthGuard } from './auth/guards/authguard.';
 import { AuthorizationService } from './auth/services/authorization.service';
+import { StorageEffects } from './state/effects/storage.effects';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { AuthorizationService } from './auth/services/authorization.service';
     AppRoutingModule,
     SharedModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([AppEffects,StorageEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [

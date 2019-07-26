@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import * as fromRoot from '../../../state/reducers/index';
 import { LocalStorageReaderService } from './local-storage-reader.service';
 import { LocalStorage } from './local-storage';
 import { AuthenticationService } from 'src/app/auth/services/authentication.service';
@@ -21,8 +19,8 @@ export class LocalStorageWriterService {
 	}
 
 	writeToStorage(key: string, value: any): void {
-		const items = this.localStorageReaderService.getLearningStorage();
+		const items = this.localStorageReaderService.getLocalStorage();
 		items.set(key, value);
-		this.localStorage.set(`${localStorage.localStorageKey}_${this.userId}`, JSON.stringify(Array.from(items.entries())));
+		this.localStorage.set(`${LocalStorage.localStorageKey}_${this.userId}`, JSON.stringify(Array.from(items.entries())));
 	}
 }
