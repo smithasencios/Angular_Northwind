@@ -14,7 +14,7 @@ export class TableViewComponent<T> implements OnInit {
   @Input() limit?: number;
   @Input() detailTemplate: TemplateRef<any>;
 
-  @ViewChild('myTable') table: any;
+  @ViewChild('myTable', {static: false}) table: any;
 
   constructor() { }
 

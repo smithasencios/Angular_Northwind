@@ -9,26 +9,10 @@ import { Router } from '@angular/router';
 })
 export class CallbackComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) {
-    
-  }
+  constructor(private authenticationService: AuthenticationService) { }
 
-  async ngOnInit() {    
-    const client = await this.authenticationService.getAuth0Client();
-
-    // Handle the redirect from Auth0
-    const result = await client.handleRedirectCallback();
-    
-    // Get the URL the user was originally trying to reach
-    const targetRoute =
-      result.appState && result.appState.target ? result.appState.target : '';
-
-    // Update observables
-    this.authenticationService.isAuthenticated.next(await client.isAuthenticated());
-    this.authenticationService.profile.next(await client.getUser())
-
-    // Redirect away
-    this.router.navigate([targetRoute]);
+  ngOnInit() {
+    this.authenticationService.handleAuthCallback();
   }
 
 }

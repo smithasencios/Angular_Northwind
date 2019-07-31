@@ -24,10 +24,10 @@ export class OrderMainContainerComponent implements OnInit, AfterViewInit {
   pageSizeOptions: number[] = [10, 20, 50, 100];
   public columns: object[] = [];
   public detailColumns: object[] = [];
-  @ViewChild("tableView") tableView: TableViewComponent<any>;
-  @ViewChild("orderIdCellTemplate") private orderIdCellTemplate: TemplateRef<any>;
-  @ViewChild("orderDateCellTemplate") private orderDateCellTemplate: TemplateRef<any>;
-  @ViewChild("accionesCellTemplate") private accionesCellTemplate: TemplateRef<any>;
+  @ViewChild("tableView", {static: false}) tableView: TableViewComponent<any>;
+  @ViewChild("orderIdCellTemplate", {static: false}) private orderIdCellTemplate: TemplateRef<any>;
+  @ViewChild("orderDateCellTemplate", {static: false}) private orderDateCellTemplate: TemplateRef<any>;
+  @ViewChild("accionesCellTemplate", {static: false}) private accionesCellTemplate: TemplateRef<any>;
 
   constructor(private store: Store<fromReducer.OrderState>, private ref: ChangeDetectorRef) { }
 

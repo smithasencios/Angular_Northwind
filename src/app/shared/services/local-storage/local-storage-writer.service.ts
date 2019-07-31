@@ -11,11 +11,11 @@ export class LocalStorageWriterService {
 		private localStorage: LocalStorage,
 		private localStorageReaderService: LocalStorageReaderService
 	) {
-		this.authenticationService.profile.subscribe(profile => {
-			if (profile) {
-				this.userId = profile.sub;
-			}
-		});
+		// this.authenticationService.profile.subscribe(profile => {
+		// 	if (profile) {
+		// 		this.userId = profile.sub;
+		// 	}
+		// });
 	}
 
 	writeToStorage(key: string, value: any): void {		

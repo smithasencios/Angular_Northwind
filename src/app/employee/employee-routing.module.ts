@@ -9,8 +9,8 @@ export const routes: Routes = [
   {
     path: '',
     component: EmployeeMainContainerComponent,
-    // canActivate: [AuthGuard],
-    // data: { expectedPermissions: [PermissionCodes.ReadOrders] }
+    canActivate: [AuthGuard],
+    data: { expectedPermission: PermissionCodes.ReadEmpleados }
   }
 ];
 

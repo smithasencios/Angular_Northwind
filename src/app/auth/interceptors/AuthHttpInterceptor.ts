@@ -1,48 +1,33 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpHeaders, } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, throwError as observableThrowError, from } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, throwError as observableThrowError, from, throwError } from 'rxjs';
+import { catchError, filter, mergeMap } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication.service';
 
 @Injectable()
 export class AuthHttpInterceptor implements HttpInterceptor {
 
-    constructor(private authentication: AuthenticationService, private router: Router) { }
+  constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return from(this.handleAccess(req, next));
-    }
-
-    private async handleAccess(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
-
-        const authService = await this.authentication.getAuth0Client();
-        const token = await authService.getTokenSilently();
-        let changedRequest = request;
-        // HttpHeader object immutable - copy values
-        const headerSettings: { [name: string]: string | string[]; } = {};
-
-        for (const key of request.headers.keys()) {
-            headerSettings[key] = request.headers.getAll(key);
-        }
-        if (token) {
-            headerSettings['Authorization'] = 'Bearer ' + token;
-        }
-        headerSettings['Content-Type'] = 'application/json';
-        const newHeader = new HttpHeaders(headerSettings);
-
-        changedRequest = request.clone({
-            headers: newHeader
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    return this.authenticationService.accessToken$.pipe(
+      filter(token => typeof token === 'string'),
+      mergeMap(token => {
+        const tokenReq = req.clone({
+          setHeaders: { Authorization: `Bearer ${token}` }
         });
-
-        return next.handle(changedRequest).pipe(
-            catchError((err) => {
-                if (err.status === 401) {
-                    this.router.navigate(['/home'], {
-                        queryParams: { redirectUrl: this.router.routerState.snapshot.url },
-                    });
-                }
-                return observableThrowError(err);
-            })).toPromise();
-    }
+        return next.handle(tokenReq);
+      }),
+      catchError(err => {
+        if (err.status === 401) {
+          this.router.navigate(['/home']);
+        }
+        return observableThrowError(err);
+      })
+    );
+  }
 }

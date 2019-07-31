@@ -14,47 +14,33 @@ import * as storageActions from './state/actions/storage.actions';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  isAuthenticated = false;
-  profile: any;
+
   menu: Menu[] = [];
 
-  private auth0Client: Auth0Client;
-
-  constructor(private authService: AuthenticationService,
+  constructor(public authService: AuthenticationService,
     private authorizationService: AuthorizationService,
     private store: Store<fromReducer.State>) { }
 
-  async ngOnInit() {
-    this.auth0Client = await this.authService.getAuth0Client();
-    this.authService.isAuthenticated.subscribe(value => {
-      // debugger
-      this.isAuthenticated = value;
-    });
+  ngOnInit() {
+    this.authService.localAuthSetup();
+    this.authService.userProfile$
+      .subscribe((userProfile: any) => {
+        if (userProfile) {
+          this.authorizationService.getPermissionsByUserId(userProfile.sub)
+            .subscribe((response: any) => {
+              this.setMenuOptions(response.data);
+            })
+        }
+      });
 
-    this.authService.profile.subscribe(profile => {
-      this.profile = profile;
-
-      if (profile) {
-        this.authorizationService.getPermissionsByUserId(profile.sub)
-          .subscribe((response: any) => {
-            // debugger
-            this.store.dispatch(new storageActions.UpdateStorage("isAuthenticated", this.isAuthenticated));
-            this.store.dispatch(new storageActions.UpdateStorage("permissions", response.data));
-            this.setMenuOptions(response.data);
-          })
-      }
-    });
   }
 
-  async login() {
-    await this.auth0Client.loginWithRedirect({ redirect_uri: `${window.location.origin}/callback` });
+  login() {
+    this.authService.login();
   }
 
   logout() {
-    this.auth0Client.logout({
-      client_id: this.authService.config.client_id,
-      returnTo: window.location.origin
-    });
+    this.authService.logout();
   }
 
   setMenuOptions(permissions: Permission[]): void {
