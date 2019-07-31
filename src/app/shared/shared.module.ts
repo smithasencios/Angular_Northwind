@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from './material/material.module';
 import { RouterModule } from '@angular/router';
@@ -31,13 +31,19 @@ import { LocalStorage } from './services/local-storage/local-storage';
   exports: [NavBarComponent, AppConfirmComponent, BubbleComponent,
     MaterialModule, FormsModule, ReactiveFormsModule, DecimalOnlyDirective,
     HighchartsChartModule, FooterComponent, NgxDatatableModule, TableViewComponent],
-  entryComponents: [AppConfirmComponent],
-  providers: [
-    AppConfirmService,
-    SnackbarWrapperService,
-    LocalStorage,
-    LocalStorageReaderService,
-    LocalStorageWriterService
-  ]
+  entryComponents: [AppConfirmComponent]
 })
-export class SharedModule { }
+export class SharedModule {
+	static forRoot(): ModuleWithProviders {
+		return {
+			ngModule: SharedModule,
+			providers: [
+        AppConfirmService,
+        SnackbarWrapperService,
+        LocalStorage,
+        LocalStorageReaderService,
+        LocalStorageWriterService
+			]
+		};
+	}
+}

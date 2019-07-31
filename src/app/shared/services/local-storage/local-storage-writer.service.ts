@@ -18,8 +18,8 @@ export class LocalStorageWriterService {
 		});
 	}
 
-	writeToStorage(key: string, value: any): void {
-		const items = this.localStorageReaderService.getLocalStorage();
+	writeToStorage(key: string, value: any): void {		
+		const items = this.localStorageReaderService.getLocalStorage();		
 		items.set(key, value);
 		this.localStorage.set(`${LocalStorage.localStorageKey}_${this.userId}`, JSON.stringify(Array.from(items.entries())));
 	}

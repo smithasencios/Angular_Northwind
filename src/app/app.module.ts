@@ -29,7 +29,7 @@ import { StorageEffects } from './state/effects/storage.effects';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    SharedModule,
+    SharedModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([AppEffects,StorageEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : []

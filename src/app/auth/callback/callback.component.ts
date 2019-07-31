@@ -9,9 +9,11 @@ import { Router } from '@angular/router';
 })
 export class CallbackComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) {}
+  constructor(private authenticationService: AuthenticationService, private router: Router) {
+    
+  }
 
-  async ngOnInit() {
+  async ngOnInit() {    
     const client = await this.authenticationService.getAuth0Client();
 
     // Handle the redirect from Auth0

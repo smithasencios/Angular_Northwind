@@ -14,7 +14,7 @@ export class LocalStorageReaderService {
 	}
 
 	getLocalStorage(): Map<string, any> {
-		const localStorageValue = JSON.parse(this.getStorageValue(`${localStorage.localStorageKey}_${this.userId}`));
+		const localStorageValue = JSON.parse(this.getStorageValue(`${LocalStorage.localStorageKey}_${this.userId}`));
 		const store = localStorageValue || [];
 		return new Map<string, any>(store);
 	}

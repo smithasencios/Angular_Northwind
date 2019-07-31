@@ -22,24 +22,24 @@ export class AppComponent implements OnInit {
 
   constructor(private authService: AuthenticationService,
     private authorizationService: AuthorizationService,
-    private store: Store<fromReducer.State>) {
-
-  }
+    private store: Store<fromReducer.State>) { }
 
   async ngOnInit() {
     this.auth0Client = await this.authService.getAuth0Client();
-    // Watch for changes to the isAuthenticated state
     this.authService.isAuthenticated.subscribe(value => {
+      // debugger
       this.isAuthenticated = value;
     });
-    // Watch for changes to the profile data
+
     this.authService.profile.subscribe(profile => {
       this.profile = profile;
 
       if (profile) {
         this.authorizationService.getPermissionsByUserId(profile.sub)
           .subscribe((response: any) => {
-            this.store.dispatch(new storageActions.UpdateStorage("permissions",response.data));
+            // debugger
+            this.store.dispatch(new storageActions.UpdateStorage("isAuthenticated", this.isAuthenticated));
+            this.store.dispatch(new storageActions.UpdateStorage("permissions", response.data));
             this.setMenuOptions(response.data);
           })
       }
