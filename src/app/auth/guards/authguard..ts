@@ -38,20 +38,22 @@ export class AuthGuard implements CanLoad, CanActivate {
     }
 
     protected checkPermissions(route?: ActivatedRouteSnapshot): boolean {
-        let hasPermissions: boolean = false;
+        let hasPermissions: boolean = true;
         const expectedRole = route.data.expectedPermission;
 
         this.localStoreItems$
             .subscribe(items => {
                 const permissions: Permission[] = items.get("permissions");
                 if (permissions) {
+
                     hasPermissions = permissions.some((permission: Permission) => permission.permission_name === expectedRole);
+                    if (!hasPermissions) {
+                        this.router.navigate(['home']);
+                    }
                 }
             });
 
-        if (!hasPermissions) {
-            this.router.navigate(['home']);
-        }
+
         return hasPermissions;
     }
 }

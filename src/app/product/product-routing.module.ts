@@ -6,6 +6,8 @@ import { ProductListContainerComponent } from './containers/product-list-contain
 import { ProductNewContainerComponent } from './containers/product-new-container/product-new-container.component';
 import { ProductNewGuard } from './guards/product-new.guard';
 import { BestSellerProductsContainerComponent } from './containers/best-seller-products-container/best-seller-products-container.component';
+import { AuthGuard } from '../auth/guards/authguard.';
+import { PermissionCodes } from '../shared/constants/permission-codes';
 
 export const routes: Routes = [
   {
@@ -19,12 +21,14 @@ export const routes: Routes = [
       },
       {
         path: 'list',
-        component: ProductListContainerComponent
+        component: ProductListContainerComponent,
+        canActivate: [AuthGuard],
+        data: { expectedPermission: PermissionCodes.ReadProductos }
       },
       {
         path: 'new',
         component: ProductNewContainerComponent,
-        canDeactivate : [ProductNewGuard]
+        canDeactivate: [ProductNewGuard]
       },
       {
         path: 'bestSellers',
