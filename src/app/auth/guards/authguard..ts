@@ -1,30 +1,23 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateChild, CanLoad, Route, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 import * as fromReducer from './../../state/reducers/index';
 import { Store } from '@ngrx/store';
-import * as storageActions from './../../state/actions/storage.actions';
-import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
+import * as fromRoot from './../../state/reducers';
 import { tap } from 'rxjs/operators';
+import { Permission } from 'src/app/shared/models/permission';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthGuard implements CanLoad, CanActivate {
 
-    isAuthenticated = false;
-
-    public localStoreItems$: Observable<Map<string, any>>;
+    localStoreItems$: Observable<Map<string, any>> = this.store.select(fromRoot.getLocalStorage);
 
     constructor(private authenticationService: AuthenticationService,
         private router: Router,
-        private store: Store<fromReducer.State>) {
-
-        // this.authenticationService.isAuthenticated.subscribe(value => {
-        //     this.isAuthenticated = value;
-        // });
-    }
+        private store: Store<fromReducer.State>) { }
 
     canLoad(route: Route): boolean | Observable<boolean> | Promise<boolean> {
 
@@ -45,8 +38,20 @@ export class AuthGuard implements CanLoad, CanActivate {
     }
 
     protected checkPermissions(route?: ActivatedRouteSnapshot): boolean {
+        let hasPermissions: boolean = false;
         const expectedRole = route.data.expectedPermission;
-        console.log(expectedRole)
-        return true;
+
+        this.localStoreItems$
+            .subscribe(items => {
+                const permissions: Permission[] = items.get("permissions");
+                if (permissions) {
+                    hasPermissions = permissions.some((permission: Permission) => permission.permission_name === expectedRole);
+                }
+            });
+
+        if (!hasPermissions) {
+            this.router.navigate(['home']);
+        }
+        return hasPermissions;
     }
 }

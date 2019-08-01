@@ -6,11 +6,12 @@ import { AuthenticationService } from 'src/app/auth/services/authentication.serv
 export class LocalStorageReaderService {
 	private userId: number;
 	constructor(private authenticationService: AuthenticationService, private localStorage: LocalStorage) {
-		// this.authenticationService.profile.subscribe(profile => {
-		// 	if (profile) {
-		// 		this.userId = profile.sub;
-		// 	}
-		// });
+		this.authenticationService.userProfile$
+			.subscribe((userProfile: any) => {
+				if (userProfile) {
+					this.userId = userProfile.sub;
+				}
+			});
 	}
 
 	getLocalStorage(): Map<string, any> {

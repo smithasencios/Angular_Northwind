@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
         if (userProfile) {
           this.authorizationService.getPermissionsByUserId(userProfile.sub)
             .subscribe((response: any) => {
+              this.store.dispatch(new storageActions.UpdateStorage("permissions", response.data));
               this.setMenuOptions(response.data);
             })
         }

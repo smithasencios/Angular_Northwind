@@ -11,15 +11,16 @@ export class LocalStorageWriterService {
 		private localStorage: LocalStorage,
 		private localStorageReaderService: LocalStorageReaderService
 	) {
-		// this.authenticationService.profile.subscribe(profile => {
-		// 	if (profile) {
-		// 		this.userId = profile.sub;
-		// 	}
-		// });
+		this.authenticationService.userProfile$
+			.subscribe((userProfile: any) => {
+				if (userProfile) {
+					this.userId = userProfile.sub;
+				}
+			});
 	}
 
-	writeToStorage(key: string, value: any): void {		
-		const items = this.localStorageReaderService.getLocalStorage();		
+	writeToStorage(key: string, value: any): void {
+		const items = this.localStorageReaderService.getLocalStorage();
 		items.set(key, value);
 		this.localStorage.set(`${LocalStorage.localStorageKey}_${this.userId}`, JSON.stringify(Array.from(items.entries())));
 	}
