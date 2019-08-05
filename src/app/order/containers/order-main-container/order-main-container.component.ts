@@ -86,7 +86,8 @@ export class OrderMainContainerComponent implements OnInit, AfterViewInit {
       {
         name: "Order Date",
         cellTemplate: this.orderDateCellTemplate,
-        flexGrow: 1
+        flexGrow: 1,
+        hideSM: true
       },
       {
         name: "Acciones",
@@ -135,7 +136,7 @@ export class OrderMainContainerComponent implements OnInit, AfterViewInit {
       if (this.searchForm.dirty) {
         let searchOrderCriteria: SearchOrderCriteria;
         const newSearchCriteria = { ...searchOrderCriteria, ...this.searchForm.value };
-        this.store.dispatch(new orderActions.UpdateOrderSearchCriteria(newSearchCriteria));      
+        this.store.dispatch(new orderActions.UpdateOrderSearchCriteria(newSearchCriteria));
         this.refreshData();
 
       } else {
@@ -144,5 +145,9 @@ export class OrderMainContainerComponent implements OnInit, AfterViewInit {
 
 
     }
+  }
+
+  onViewDetail(row: any): void {
+    console.log(row.Order_Id)
   }
 }

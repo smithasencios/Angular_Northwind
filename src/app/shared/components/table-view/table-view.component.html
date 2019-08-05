@@ -5,7 +5,7 @@
       <ngx-datatable #myTable class='material ngx-table' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="0"
         [limit]="limit" [rowHeight]="50" [rows]='items'>
 
-        <ngx-datatable-column *ngFor='let column of columns' [flexGrow]="column.flexGrow" [name]="column.name"
+        <ngx-datatable-column *ngFor='let column of tableColumns' [flexGrow]="column.flexGrow" [name]="column.name"
           [resizeable]="column.resizeable" [cellTemplate]="column.cellTemplate" [prop]="column.prop"
           [sortable]="column.sortable? true: false">
         </ngx-datatable-column>

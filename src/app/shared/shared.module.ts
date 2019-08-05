@@ -16,6 +16,7 @@ import { TableViewComponent } from './components/table-view/table-view.component
 import { LocalStorageReaderService } from './services/local-storage/local-storage-reader.service';
 import { LocalStorageWriterService } from './services/local-storage/local-storage-writer.service';
 import { LocalStorage } from './services/local-storage/local-storage';
+import { WindowService } from './components/table-view/table-view-window-service';
 
 @NgModule({
   declarations: [NavBarComponent, AppConfirmComponent, BubbleComponent, DecimalOnlyDirective, FooterComponent, TableViewComponent],
@@ -42,7 +43,8 @@ export class SharedModule {
         SnackbarWrapperService,
         LocalStorage,
         LocalStorageReaderService,
-        LocalStorageWriterService
+        LocalStorageWriterService,
+        WindowService
 			]
 		};
 	}
