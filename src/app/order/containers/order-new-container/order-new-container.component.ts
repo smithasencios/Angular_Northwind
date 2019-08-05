@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { CustomerPopupContainerComponent } from '../customer-popup-container/customer-popup-container.component';
 import { Customer } from '../../models/customer';
@@ -11,8 +11,9 @@ import { PreOrderCustomer } from '../../models/pre-order-customer';
 import { PreOrder, PreOrderDetail } from '../../models/pre-order';
 import * as orderActions from '../../state/actions/order.actions';
 import * as fromReducer from '../../state/reducers';
-import { Store, ActionsSubject } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-order-new-container',
@@ -21,6 +22,7 @@ import * as moment from 'moment';
 })
 export class OrderNewContainerComponent implements OnInit {
 
+  orderId: number;
   orderForm: FormGroup;
   preOrderCustomer: PreOrderCustomer;
   orderProductList: PreOrderProduct[] = [];
@@ -28,13 +30,19 @@ export class OrderNewContainerComponent implements OnInit {
   preOrder: PreOrder = PreOrder.createEmptyInstance();
 
   constructor(private fb: FormBuilder, private dialog: MatDialog,
-    private store: Store<fromReducer.OrderState>) {
+    private store: Store<fromReducer.OrderState>,
+    private route: ActivatedRoute) {
     this.buildNewForm();
   }
 
   ngOnInit() {
-
+    this.route.params.subscribe(params => {
+      if (params.id) {
+        this.store.dispatch(new orderActions.LoadOrderById(params.id));
+      }
+    });
   }
+
   buildNewForm(): void {
     this.orderForm = this.fb.group({
       id: ['', [Validators.required]],
@@ -46,6 +54,7 @@ export class OrderNewContainerComponent implements OnInit {
       city: ['', [Validators.required]],
     });
   }
+
   openCustomerPopup(): void {
     const dialogRef = this.dialog.open(CustomerPopupContainerComponent, {
       width: '40vw'
@@ -82,6 +91,7 @@ export class OrderNewContainerComponent implements OnInit {
 
     this.preOrderFooter = new PreOrderFooter(this.orderProductList);
   }
+
   UpdateQuantity(event: any): any {
     const updatedProduct = { ...this.orderProductList[event.index] };
     updatedProduct.Quantity = Number(event.newValue);
@@ -92,6 +102,7 @@ export class OrderNewContainerComponent implements OnInit {
 
     this.preOrderFooter = new PreOrderFooter(this.orderProductList);
   }
+
   onSave() {
     const customer = { ...this.preOrderCustomer, ...this.orderForm.value };
     this.preOrder.CustomerId = customer.id;

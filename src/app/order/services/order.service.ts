@@ -46,11 +46,7 @@ export class OrderService {
         map((response: number) => response)
       );
   }
-  getOrderById(id: number): Observable<OrderListDetail> {
-
-    return this.http.get<OrderListDetail>(`${environment.ApiUrl}orders/${id}`)
-      .pipe(
-        map((response: any) => OrderListDetail.mapFromResponse(response.data))
-      );
+  getOrderById(id: number): Observable<OrderListItem> {
+    return this.http.get<OrderListItem>(`${environment.ApiUrl}orders/${id}`);
   }
 }

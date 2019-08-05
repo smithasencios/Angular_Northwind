@@ -9,6 +9,7 @@ import { TableViewComponent } from 'src/app/shared/components/table-view/table-v
 import { Status } from 'src/app/shared/models/status';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { SearchOrderCriteria } from '../../models/search-order-criteria';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-main-container',
@@ -34,7 +35,8 @@ export class OrderMainContainerComponent implements OnInit, AfterViewInit {
   @ViewChild("orderDateCellTemplate", { static: false }) private orderDateCellTemplate: TemplateRef<any>;
   @ViewChild("accionesCellTemplate", { static: false }) private accionesCellTemplate: TemplateRef<any>;
 
-  constructor(private fb: FormBuilder, private store: Store<fromReducer.OrderState>, private ref: ChangeDetectorRef) {
+  constructor(private fb: FormBuilder, private store: Store<fromReducer.OrderState>,
+    private ref: ChangeDetectorRef, private router: Router) {
     this.buildSearchForm();
   }
 
@@ -143,11 +145,10 @@ export class OrderMainContainerComponent implements OnInit, AfterViewInit {
         console.log('no se actualizo nada.')
       }
 
-
     }
   }
 
   onViewDetail(row: any): void {
-    console.log(row.Order_Id)
+    this.router.navigate(['/order/detail/', row.Order_Id]);
   }
 }

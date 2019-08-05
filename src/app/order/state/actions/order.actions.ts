@@ -2,15 +2,16 @@ import { Action } from '@ngrx/store';
 import { PreOrder } from '../../models/pre-order';
 import { GetOrders } from '../../models/get-orders';
 import { OrderList } from '../../models/order-list';
-import { OrderListDetail } from '../../models/order-list-detail';
 import { SearchOrderCriteria } from '../../models/search-order-criteria';
+import { OrderListItem } from '../../models/order-list-item';
+
 export enum OrderActionTypes {
     AddOrder = '[Order] Add Order',
     AddOrderComplete = '[Order] Add Order Complete',
     LoadOrders = '[Order] Load Orders',
     LoadOrdersComplete = '[Order] Load Orders Complete',
-    LoadOrdersDetail = '[Order] Load Orders Detail',
-    LoadOrdersDetailComplete = '[Order] Load Orders Detail Complete',
+    LoadOrderById = '[Order] Load Order By Id',
+    LoadOrderByIdComplete = '[Order] Load Order By Id Complete',
     UpdateOrderSearchCriteria = '[Order] Update Order Search Criteria',
     OnError = '[Order] On Error'
 }
@@ -38,13 +39,13 @@ export class LoadOrdersComplete implements Action {
     constructor(public payload: OrderList) { }
 }
 
-export class LoadOrdersDetail implements Action {
-    readonly type = OrderActionTypes.LoadOrdersDetail;
+export class LoadOrderById implements Action {
+    readonly type = OrderActionTypes.LoadOrderById;
     constructor(public orderId: number) { }
 }
-export class LoadOrdersDetailComplete implements Action {
-    readonly type = OrderActionTypes.LoadOrdersDetailComplete;
-    constructor(public payload: OrderListDetail) { }
+export class LoadOrderByIdComplete implements Action {
+    readonly type = OrderActionTypes.LoadOrderByIdComplete;
+    constructor(public payload: OrderListItem) { }
 }
 export class UpdateOrderSearchCriteria implements Action {
     readonly type = OrderActionTypes.UpdateOrderSearchCriteria;
@@ -55,7 +56,7 @@ export type Actions =
     | AddOrderComplete
     | LoadOrders
     | LoadOrdersComplete
-    | LoadOrdersDetail
-    | LoadOrdersDetailComplete
+    | LoadOrderById
+    | LoadOrderByIdComplete
     | UpdateOrderSearchCriteria
     | OnError;
