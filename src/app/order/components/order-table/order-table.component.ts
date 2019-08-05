@@ -7,7 +7,7 @@ import { PreOrderProduct } from '../../models/pre-order-product';
   styleUrls: ['./order-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrderTableComponent implements OnInit, OnChanges {
+export class OrderTableComponent implements OnInit {
 
   @Input()
   items: PreOrderProduct[];
@@ -18,11 +18,6 @@ export class OrderTableComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit() {
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.items && changes.items.currentValue) {
-      console.log(this.items)
-    }
   }
 
   onUpdateCantidad(event: any, cell: any, rowIndex: any) {

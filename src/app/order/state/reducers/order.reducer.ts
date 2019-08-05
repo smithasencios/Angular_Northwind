@@ -1,19 +1,20 @@
 import * as orderActions from '../actions/order.actions';
-import { OrderList } from '../../models/order-list';
 import { OrderListItem } from '../../models/order-list-item';
-import { OrderListDetailItem } from '../../models/order-list-detail-item';
 import { OrderListDetail } from '../../models/order-list-detail';
+import { SearchOrderCriteria } from '../../models/search-order-criteria';
 
 export interface State {
     totalRecords: number;
     orders: OrderListItem[];
     orderListDetails: OrderListDetail;
+    query: SearchOrderCriteria;
 }
 
 const initialState: State = {
     totalRecords: 0,
     orders: [],
-    orderListDetails: new OrderListDetail()
+    orderListDetails: new OrderListDetail(),
+    query: new SearchOrderCriteria()
 };
 
 export function OrderReducer(state = initialState, action: orderActions.Actions): State {
@@ -43,6 +44,15 @@ export function OrderReducer(state = initialState, action: orderActions.Actions)
                 orderListDetails: action.payload
             };
         }
+        case orderActions.OrderActionTypes.UpdateOrderSearchCriteria: {
+            if (action.payload) {
+                return {
+                    ...state,
+                    query: action.payload
+                };
+            }
+            return state;
+        }
         default:
             return state;
     }
@@ -51,3 +61,4 @@ export function OrderReducer(state = initialState, action: orderActions.Actions)
 export const getOrders = (state: State) => state.orders;
 export const getTotalOrderRecords = (state: State) => state.totalRecords;
 export const getOrderListDetails = (state: State) => state.orderListDetails;
+export const getQuery = (state: State) => state.query;

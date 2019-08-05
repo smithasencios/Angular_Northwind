@@ -19,20 +19,25 @@ export class OrderService {
 
   getOrders(request: GetOrders): Observable<OrderList> {
     return this.http.post<OrderList>(`${environment.ApiUrl}orders/paginated`, request)
-    .pipe(
-      map((response:any)=>{
-        const orderList : OrderList=new OrderList();
-        const orderListItemArray : OrderListItem[]=[];
-        
-        for (let index = 0; index < response.data.length; index++) {
-          const element = response.data[index];
-          orderListItemArray.push(OrderListItem.mapFromResponse(element));
-        }
-        orderList.data = orderListItemArray;
-        orderList.totalRecords = response.totalRecords;
-        return orderList;
-      })
-    );
+      .pipe(
+        map((response: any) => {
+          const orderList: OrderList = new OrderList();
+          if (!response.data) {
+            orderList.data = [];
+            return orderList;
+          }
+
+          const orderListItemArray: OrderListItem[] = [];
+
+          for (let index = 0; index < response.data.length; index++) {
+            const element = response.data[index];
+            orderListItemArray.push(OrderListItem.mapFromResponse(element));
+          }
+          orderList.data = orderListItemArray;
+          orderList.totalRecords = response.totalRecords;
+          return orderList;
+        })
+      );
   }
 
   addOrder(request: PreOrder): Observable<number> {
@@ -42,10 +47,10 @@ export class OrderService {
       );
   }
   getOrderById(id: number): Observable<OrderListDetail> {
-    
+
     return this.http.get<OrderListDetail>(`${environment.ApiUrl}orders/${id}`)
-    .pipe(
-      map((response:any)=>OrderListDetail.mapFromResponse(response.data))
-    );
+      .pipe(
+        map((response: any) => OrderListDetail.mapFromResponse(response.data))
+      );
   }
 }

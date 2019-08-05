@@ -3,6 +3,7 @@ import { PreOrder } from '../../models/pre-order';
 import { GetOrders } from '../../models/get-orders';
 import { OrderList } from '../../models/order-list';
 import { OrderListDetail } from '../../models/order-list-detail';
+import { SearchOrderCriteria } from '../../models/search-order-criteria';
 export enum OrderActionTypes {
     AddOrder = '[Order] Add Order',
     AddOrderComplete = '[Order] Add Order Complete',
@@ -10,6 +11,7 @@ export enum OrderActionTypes {
     LoadOrdersComplete = '[Order] Load Orders Complete',
     LoadOrdersDetail = '[Order] Load Orders Detail',
     LoadOrdersDetailComplete = '[Order] Load Orders Detail Complete',
+    UpdateOrderSearchCriteria = '[Order] Update Order Search Criteria',
     OnError = '[Order] On Error'
 }
 
@@ -44,6 +46,10 @@ export class LoadOrdersDetailComplete implements Action {
     readonly type = OrderActionTypes.LoadOrdersDetailComplete;
     constructor(public payload: OrderListDetail) { }
 }
+export class UpdateOrderSearchCriteria implements Action {
+    readonly type = OrderActionTypes.UpdateOrderSearchCriteria;
+    constructor(public payload: SearchOrderCriteria) { }
+}
 export type Actions =
     | AddOrder
     | AddOrderComplete
@@ -51,4 +57,5 @@ export type Actions =
     | LoadOrdersComplete
     | LoadOrdersDetail
     | LoadOrdersDetailComplete
+    | UpdateOrderSearchCriteria
     | OnError;

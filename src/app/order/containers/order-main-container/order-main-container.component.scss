@@ -1,8 +1,33 @@
-.order-id{
-    display: flex;
-    
+@import "../../../shared/responsive-breakpoints.scss";
+
+.order-id {
+  display: flex;
 }
-.order-footer{
-    display: flex;
-    justify-content:flex-end;
+.order-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+.order-container {
+  display: flex;
+  flex-direction: row;
+  @include respond-to(md-screen, sm-screen, xs-screen) {
+    flex-direction: column;
   }
+  .search-container {
+    display: flex;
+    width: 15%;
+    @include respond-to(md-screen, sm-screen, xs-screen) {
+      align-items: center;
+      width: 100%;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+  }
+
+  .result-container {
+    width: 85%;
+    @include respond-to(md-screen, sm-screen, xs-screen) {
+      width: 100%;
+    }
+  }
+}
