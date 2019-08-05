@@ -1,22 +1,22 @@
 <div class="order-container">
     <div class="search-container">
         <form [formGroup]="searchForm" (ngSubmit)="search()">
-            <div>
+            <div class="date-from">
                 <mat-form-field>
                     <input matInput [matDatepicker]="dateFrom" placeholder="Desde" formControlName="date_from">
                     <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
                     <mat-datepicker #dateFrom></mat-datepicker>
                 </mat-form-field>
             </div>
-            <div>
+            <div class="date-to">
                 <mat-form-field>
                     <input matInput [matDatepicker]="dateTo" placeholder="Hasta" formControlName="date_to">
                     <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
                     <mat-datepicker #dateTo></mat-datepicker>
                 </mat-form-field>
             </div>
-            <div>
-                <mat-form-field class="">
+            <div class="status">
+                <mat-form-field>
                     <mat-label>Select an Status</mat-label>
                     <mat-select formControlName="status">
                         <mat-option *ngFor="let estado of estados" [value]="estado.StatusId">{{estado.StatusName}}
@@ -24,7 +24,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div>
+            <div class="button-container">
                 <button mat-raised-button type="submit" [disabled]="!searchForm.valid || !searchForm.dirty"
                     color="primary">Buscar</button>
             </div>
@@ -35,8 +35,8 @@
 
         </app-table-view>
         <div>
-            <mat-paginator *ngIf="(length$ | async) > 0" [length]="length$ | async" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-                (page)="changePage($event)">
+            <mat-paginator *ngIf="(length$ | async) > 0" [length]="length$ | async" [pageSize]="pageSize"
+                [pageSizeOptions]="pageSizeOptions" (page)="changePage($event)">
             </mat-paginator>
         </div>
 

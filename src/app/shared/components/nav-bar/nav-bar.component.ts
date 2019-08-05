@@ -16,6 +16,8 @@ export class NavBarComponent {
   @Input()
   isAuthenticated: boolean;
   @Input()
+  userProfile: any;
+  @Input()
   menu: Menu[];
   @Output()
   login: EventEmitter<any> = new EventEmitter<any>();

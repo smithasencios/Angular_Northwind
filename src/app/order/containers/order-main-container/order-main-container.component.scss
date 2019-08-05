@@ -17,10 +17,33 @@
     display: flex;
     width: 15%;
     @include respond-to(md-screen, sm-screen, xs-screen) {
-      align-items: center;
       width: 100%;
-      flex-direction: column;
       margin-bottom: 20px;
+    }
+
+    .date-from {
+      @include respond-to(md-screen, sm-screen) {
+        display: inline;
+        margin-left: 10px;
+      }
+    }
+    .date-to {
+      @include respond-to(md-screen, sm-screen) {
+        display: inline;
+        margin-left: 10px;
+      }
+    }
+    .status {
+      @include respond-to(md-screen, sm-screen) {
+        display: inline;
+        margin-left: 10px;
+      }
+    }
+    .button-container {
+      @include respond-to(md-screen, sm-screen) {
+        display: inline;
+        margin-left: 10px;
+      }
     }
   }
 
