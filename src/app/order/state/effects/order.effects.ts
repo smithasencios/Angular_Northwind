@@ -9,12 +9,14 @@ import { Router } from '@angular/router';
 import * as fromRoot from './../reducers';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable()
 export class OrderEffects extends FrontendBaseEffect {
     constructor(private actions$: Actions, private orderService: OrderService,
         snackbarWrapperService: SnackbarWrapperService, private router: Router,
-        private store: Store<fromRoot.OrderState>) {
+        private store: Store<fromRoot.OrderState>,
+        private db: AngularFirestore) {
         super(snackbarWrapperService);
     }
 
@@ -23,11 +25,16 @@ export class OrderEffects extends FrontendBaseEffect {
         ofType<orderActions.LoadOrders>(orderActions.OrderActionTypes.LoadOrders),
         withLatestFrom(this.store.select(fromRoot.getQuery)),
         switchMap(([action, query]) => {
+            // console.log("---Query---")
+            // console.log("---Status Initial---", query.status)
+            // if (query.status) {
+            //     console.log("---Status---", query.status)
+            // }
             let orderRequest = action.request;
-            orderRequest.Status = query.status ? query.status : null;
+            orderRequest.Status = query.status !== undefined ? query.status : null;
             orderRequest.Date_From = query.date_from ? moment(query.date_from).format("YYYY/MM/DD") : null;
             orderRequest.Date_To = query.date_to ? moment(query.date_to).format("YYYY/MM/DD") : null;
-
+            console.log(orderRequest.Status)
             return this.orderService.getOrders(orderRequest)
                 .pipe(
                     map(data => new orderActions.LoadOrdersComplete(data))
@@ -43,6 +50,17 @@ export class OrderEffects extends FrontendBaseEffect {
             .pipe(
                 map(response => {
                     this.router.navigate(['/order']);
+
+                    this.db.collection('orders').add({
+                        created_date: moment(new Date()).format("YYYY/MM/DD"),
+                        order_id: response
+                    });
+                    // .then(function(docRef) {
+                    //     console.log("Document written with ID: ", docRef.id);
+                    // })
+                    // .catch(function(error) {
+                    //     console.error("Error adding document: ", error);
+                    // });
                     return new orderActions.AddOrderComplete(response);
                 })
             ))

@@ -18,6 +18,8 @@ import { AuthenticationService } from './auth/services/authentication.service';
 import { AuthGuard } from './auth/guards/authguard.';
 import { AuthorizationService } from './auth/services/authorization.service';
 import { StorageEffects } from './state/effects/storage.effects';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { StorageEffects } from './state/effects/storage.effects';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     HttpClientModule,
     AppRoutingModule,
     SharedModule.forRoot(),

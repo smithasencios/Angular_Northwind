@@ -9,7 +9,9 @@ import { TableViewComponent } from 'src/app/shared/components/table-view/table-v
 import { Status } from 'src/app/shared/models/status';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { SearchOrderCriteria } from '../../models/search-order-criteria';
-import { ActivatedRoute, Router } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/firestore';
+import * as moment from 'moment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-main-container',
@@ -36,8 +38,10 @@ export class OrderMainContainerComponent implements OnInit, AfterViewInit {
   @ViewChild("accionesCellTemplate", { static: false }) private accionesCellTemplate: TemplateRef<any>;
 
   constructor(private fb: FormBuilder, private store: Store<fromReducer.OrderState>,
-    private ref: ChangeDetectorRef, private router: Router) {
+    private ref: ChangeDetectorRef, private router: Router, private db: AngularFirestore) {
     this.buildSearchForm();
+    this.listenNewDocumentsInFirestore();
+
   }
 
   ngOnInit() {
@@ -49,6 +53,12 @@ export class OrderMainContainerComponent implements OnInit, AfterViewInit {
     this.ref.detectChanges();
   }
 
+  listenNewDocumentsInFirestore() {
+    this.db.collection('orders', ref => ref.where('created_date', '==', moment(new Date()).format("YYYY/MM/DD"))).valueChanges()
+      .subscribe(_ => {
+        this.refreshData();
+      });
+  }
   buildSearchForm() {
     this.searchForm = this.fb.group({
       date_from: ['', []],
@@ -68,7 +78,7 @@ export class OrderMainContainerComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new orderActions.LoadOrders(this.request));
   }
 
-  private getColumns(): object[] {
+  getColumns(): object[] {
     return [
       {
         name: "Id",
@@ -99,7 +109,7 @@ export class OrderMainContainerComponent implements OnInit, AfterViewInit {
     ];
   }
 
-  private getDetailColumns(): object[] {
+  getDetailColumns(): object[] {
     return [
       {
         name: "Product Name",
