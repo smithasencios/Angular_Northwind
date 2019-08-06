@@ -1,2 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./app/shared/responsive-breakpoints.scss";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.customer-modal-dialog{
+    // @include respond-to(xs-screen) {
+    //     .mat-dialog-container {
+	// 		padding-top: 0;
+	// 	}
+	// 	.mat-dialog-content {
+	// 		padding: 0 1em;
+	// 		height: 100%;
+	// 		max-height: 100%;
+	// 	}
+	// 	width: 100%;
+	// 	max-width: 100% !important;
+	// 	height: 100%;
+    // }
+    //width: 40vw;
+}

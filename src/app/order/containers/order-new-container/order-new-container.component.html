@@ -21,7 +21,7 @@
           </mat-form-field>
         </div>
         <div class="fecha">
-          <mat-form-field>
+          <mat-form-field class="fecha-field">
             <input matInput [matDatepicker]="datepicker" placeholder="Fecha" formControlName="fecha">
             <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
             <mat-datepicker #datepicker></mat-datepicker>
@@ -55,7 +55,8 @@
       </button>
     </div>
     <div>
-      <app-order-table #tableView [items]="orderProductList" (updateQuantity)="UpdateQuantity($event)"></app-order-table>
+      <app-order-table #tableView [items]="orderProductList" (updateQuantity)="UpdateQuantity($event)">
+      </app-order-table>
     </div>
     <div class="order-footer" *ngIf="orderProductList.length > 0">
       <mat-list>
@@ -65,7 +66,7 @@
       </mat-list>
     </div>
     <div class="button-container" *ngIf="orderProductList.length > 0">
-      <button mat-flat-button mat-dialog-close color="warn">Cancelar</button>
+      <button mat-flat-button color="warn" (click)="onCancel()">Cancelar</button>
       <button mat-flat-button color="primary" (click)="onSave()">Guardar</button>
     </div>
   </div>

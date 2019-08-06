@@ -11,10 +11,11 @@ import { PreOrderCustomer } from '../../models/pre-order-customer';
 import { PreOrder, PreOrderDetail } from '../../models/pre-order';
 import * as orderActions from '../../state/actions/order.actions';
 import * as fromReducer from '../../state/reducers';
-import { Store } from '@ngrx/store';
+import { Store, ActionsSubject } from '@ngrx/store';
 import * as moment from 'moment';
-import { ActivatedRoute } from '@angular/router';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { OrderListItem } from '../../models/order-list-item';
+import { ofType } from '@ngrx/effects';
 @Component({
   selector: 'app-order-new-container',
   templateUrl: './order-new-container.component.html',
@@ -29,9 +30,12 @@ export class OrderNewContainerComponent implements OnInit {
   preOrderFooter: PreOrderFooter = PreOrderFooter.createEmptyInstance();
   preOrder: PreOrder = PreOrder.createEmptyInstance();
 
-  constructor(private fb: FormBuilder, private dialog: MatDialog,
+  constructor(private fb: FormBuilder,
+    private dialog: MatDialog,
     private store: Store<fromReducer.OrderState>,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private actionsSubject$: ActionsSubject,
+    private router: Router) {
     this.buildNewForm();
   }
 
@@ -39,8 +43,16 @@ export class OrderNewContainerComponent implements OnInit {
     this.route.params.subscribe(params => {
       if (params.id) {
         this.store.dispatch(new orderActions.LoadOrderById(params.id));
+        this.setOnSuccess();
       }
     });
+  }
+  setOnSuccess() {
+    this.actionsSubject$
+      .pipe(ofType(orderActions.OrderActionTypes.LoadOrderByIdComplete))
+      .subscribe((response: any) => {
+        this.buildEditForm(response.payload)
+      });
   }
 
   buildNewForm(): void {
@@ -55,9 +67,32 @@ export class OrderNewContainerComponent implements OnInit {
     });
   }
 
+  buildEditForm(orderItem: OrderListItem): void {
+    this.orderForm = this.fb.group({
+      id: [orderItem.Customer_Id, [Validators.required]],
+      name: [orderItem.Customer, [Validators.required]],
+      company: [orderItem.Company, [Validators.required]],
+      fecha: [new Date(orderItem.Order_Date), [Validators.required]],
+      address: [orderItem.Address, [Validators.required]],
+      phone: [orderItem.Phone, [Validators.required]],
+      city: [orderItem.City, [Validators.required]],
+    });
+
+    const ordeDetailEdit = orderItem.Data.data;
+    if (ordeDetailEdit) {
+      for (let index = 0; index < ordeDetailEdit.length; index++) {
+        const element = ordeDetailEdit[index];
+        const product = new PreOrderProduct(element.OrderId, element.ProductName, element.UnitPrice);
+        this.orderProductList.push(product);
+        this.orderProductList = [...this.orderProductList];
+        this.preOrderFooter = new PreOrderFooter(this.orderProductList);
+      }
+    }
+  }
+
   openCustomerPopup(): void {
     const dialogRef = this.dialog.open(CustomerPopupContainerComponent, {
-      width: '40vw'
+      width: 'customer-modal-dialog'
     });
     dialogRef.afterClosed().subscribe((response: Customer) => {
       if (response) {
@@ -110,5 +145,9 @@ export class OrderNewContainerComponent implements OnInit {
     this.preOrder.OrderDetails = PreOrderDetail.mapOrderDetail(this.orderProductList);
 
     this.store.dispatch(new orderActions.AddOrder(this.preOrder));
+  }
+
+  onCancel(): void {
+    this.router.navigate(['order']);
   }
 }

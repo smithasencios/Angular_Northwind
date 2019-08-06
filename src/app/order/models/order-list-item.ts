@@ -7,6 +7,10 @@ export class OrderListItem {
     Status_Id: number;
     Status_Name: string;
     Customer: string;
+    Company: string;
+    Address: string;
+    City: string;
+    Phone: string;
     Data: OrderListDetail;
 
     static mapFromResponse(data: any): OrderListItem {
@@ -14,6 +18,10 @@ export class OrderListItem {
         orderListItem.Order_Id = data.order_id;
         orderListItem.Customer = data.customer;
         orderListItem.Customer_Id = data.customer_id;
+        orderListItem.Company = data.company;
+        orderListItem.Address = data.address;
+        orderListItem.City = data.city;
+        orderListItem.Phone = data.phone;
         orderListItem.Order_Date = data.order_date;
         orderListItem.Status_Id = data.status_id;
         orderListItem.Status_Name = data.status_name;

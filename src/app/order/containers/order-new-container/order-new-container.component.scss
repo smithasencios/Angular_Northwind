@@ -1,3 +1,5 @@
+@import "../../../shared/responsive-breakpoints.scss";
+
 .new-customer-container {
   .container-title {
     display: flex;
@@ -7,44 +9,68 @@
   }
   .customer-first-row {
     display: flex;
+    @include respond-to(xs-screen) {
+      flex-direction: column;
+    }
     .customer {
       display: flex;
       flex: 2;
       .customer-field {
         width: 82%;
+        @include respond-to(xs-screen) {
+          width: 100%;;
+        }
       }
     }
     .company {
       flex: 1;
       .company-field {
         width: 90%;
+        @include respond-to(xs-screen) {
+          width: 100%;;
+        }
       }
     }
     .fecha {
       flex: 1;
       .fecha-field {
         width: 90%;
+        @include respond-to(xs-screen) {
+          width: 100%;;
+        }
       }
     }
   }
   .customer-second-row {
     display: flex;
+    @include respond-to(xs-screen) {
+      flex-direction: column;
+    }
     .address {
       flex: 2;
       .address-field {
         width: 90%;
+        @include respond-to(xs-screen) {
+          width: 100%;;
+        }
       }
     }
     .phone {
       flex: 1;
       .phone-field {
         width: 90%;
+        @include respond-to(xs-screen) {
+          width: 100%;;
+        }
       }
     }
     .city {
       flex: 1;
       .city-field {
         width: 90%;
+        @include respond-to(xs-screen) {
+          width: 100%;;
+        }
       }
     }
   }
@@ -55,9 +81,9 @@
   display: flex;
   justify-content: flex-end;
 }
-.order-footer{
+.order-footer {
   display: flex;
-  justify-content:flex-end;
+  justify-content: flex-end;
 }
 .button-container {
   display: flex;

@@ -47,6 +47,13 @@ export class OrderService {
       );
   }
   getOrderById(id: number): Observable<OrderListItem> {
-    return this.http.get<OrderListItem>(`${environment.ApiUrl}orders/${id}`);
+    return this.http.get<OrderListItem>(`${environment.ApiUrl}orders/${id}`)
+      .pipe(
+        map((response: any) => {
+          let orderListItem: OrderListItem = new OrderListItem();
+          orderListItem = OrderListItem.mapFromResponse(response);
+          return orderListItem;
+        })
+      );
   }
 }
