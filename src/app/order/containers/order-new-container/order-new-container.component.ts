@@ -92,7 +92,7 @@ export class OrderNewContainerComponent implements OnInit {
 
   openCustomerPopup(): void {
     const dialogRef = this.dialog.open(CustomerPopupContainerComponent, {
-      width: 'customer-modal-dialog'
+      panelClass: 'customer-modal-dialog'
     });
     dialogRef.afterClosed().subscribe((response: Customer) => {
       if (response) {
@@ -110,7 +110,7 @@ export class OrderNewContainerComponent implements OnInit {
 
   onAdd(): void {
     const dialogRef = this.dialog.open(OrderAddProductContainerComponent, {
-      width: '40vw'
+      panelClass: 'product-modal-dialog'
     });
     dialogRef.afterClosed().subscribe((response: Product) => {
       if (response) {

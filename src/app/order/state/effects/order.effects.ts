@@ -25,16 +25,12 @@ export class OrderEffects extends FrontendBaseEffect {
         ofType<orderActions.LoadOrders>(orderActions.OrderActionTypes.LoadOrders),
         withLatestFrom(this.store.select(fromRoot.getQuery)),
         switchMap(([action, query]) => {
-            // console.log("---Query---")
-            // console.log("---Status Initial---", query.status)
-            // if (query.status) {
-            //     console.log("---Status---", query.status)
-            // }
             let orderRequest = action.request;
+            
             orderRequest.Status = query.status !== undefined ? query.status : null;
             orderRequest.Date_From = query.date_from ? moment(query.date_from).format("YYYY/MM/DD") : null;
             orderRequest.Date_To = query.date_to ? moment(query.date_to).format("YYYY/MM/DD") : null;
-            console.log(orderRequest.Status)
+
             return this.orderService.getOrders(orderRequest)
                 .pipe(
                     map(data => new orderActions.LoadOrdersComplete(data))

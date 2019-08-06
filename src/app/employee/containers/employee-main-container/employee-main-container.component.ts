@@ -55,7 +55,7 @@ export class EmployeeMainContainerComponent implements OnInit {
   }
   viewDetails(event: any): void {
     const dialogRef = this.dialog.open(EmployeeDetailPopupContainerComponent, {
-      width: '50vw',
+      panelClass: 'employee-modal-dialog',
       data: { employeeId: event.id }
     });
     dialogRef.afterClosed().subscribe(_ => {
@@ -64,7 +64,7 @@ export class EmployeeMainContainerComponent implements OnInit {
   }
   onEdit(event: any): void {
     const dialogRef = this.dialog.open(EmployeeCreatePopupContainerComponent, {
-      width: '40vw',
+      panelClass: 'employee-modal-dialog',
       data: { employeeId: event.id }
     });
     dialogRef.afterClosed().subscribe(_ => {
@@ -83,7 +83,7 @@ export class EmployeeMainContainerComponent implements OnInit {
   }
   onNew(): void {
     const dialogRef = this.dialog.open(EmployeeCreate2PopupContainerComponent, {
-      width: '50vw'
+      panelClass: 'employee-modal-dialog',
     });
     dialogRef.afterClosed().subscribe(_ => {
       this.refreshData();
