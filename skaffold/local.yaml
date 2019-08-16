@@ -11,5 +11,21 @@ spec:
     ports:
     - containerPort: 4200
       name: http
-
+    # env:
+    #   - name: LISTEN_PORT
+    #     value: "4200"
+    #   - name: SERVER_NAME
+    #     value: "_"
+    # livenessProbe:
+    #   httpGet:
+    #     path: /health
+    #     port: 4200
+    #   initialDelaySeconds: 5
+    #   periodSeconds: 5
+    # readinessProbe:
+    #   httpGet:
+    #     path: /health
+    #     port: 4200
+    #   initialDelaySeconds: 5
+    #   periodSeconds: 5
 # https://codinglatte.com/posts/angular/using-os-environment-variables-in-angular-with-docker/
