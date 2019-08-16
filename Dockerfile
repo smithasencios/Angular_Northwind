@@ -18,17 +18,15 @@ RUN npm install
 ADD . .
 
 RUN ./node_modules/.bin/ng build \
-  --progress=false \
   --prod \
-  --source-map \
   --output-path=$PACKAGE_DIR
 
 # Build a small nginx image with static website
 FROM nginx:mainline-alpine
+COPY nginx/default.conf /etc/nginx/conf.d/
 RUN rm -rf /usr/share/nginx/html/*
-COPY docker/run.sh /run.sh
-COPY docker/nginx.conf /tmp/nginx.conf
+# COPY docker/run.sh /run.sh
+# COPY docker/nginx.conf /tmp/nginx.conf
 COPY --from=builder /packaged-dist /usr/share/nginx/html
-
-
-CMD ["/run.sh"]
+CMD ["nginx", "-g", "daemon off;"]
+# CMD ["/run.sh"]
