@@ -5,8 +5,11 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 4200
+  - port: 80
     name: http
+    targetPort: http
+  - port: 443
+    name: https
     targetPort: http
   selector:
     lfda-app-name: northwind-ui
@@ -31,11 +34,11 @@ spec:
         - name: northwind-ui
           image: gcr.io/cloud-solutions-images/northwindui:1.0.0
           ports:
-            - containerPort: 4200
+            - containerPort: 8080
               name: http
           env:
             - name: LISTEN_PORT
-              value: "4200" 
+              value: "8080" 
             - name: SERVER_NAME
               value: "_"
           livenessProbe:
