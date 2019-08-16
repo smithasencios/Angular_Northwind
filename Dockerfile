@@ -25,6 +25,7 @@ RUN ./node_modules/.bin/ng build \
 
 # Build a small nginx image with static website
 FROM nginx:mainline-alpine
+RUN rm -rf /usr/share/nginx/html/*
 COPY docker/run.sh /run.sh
 COPY docker/nginx.conf /tmp/nginx.conf
 COPY --from=builder /packaged-dist /usr/share/nginx/html
