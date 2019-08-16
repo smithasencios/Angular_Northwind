@@ -27,7 +27,7 @@ RUN ./node_modules/.bin/ng build \
 FROM nginx:mainline-alpine
 COPY docker/run.sh /run.sh
 COPY docker/nginx.conf /tmp/nginx.conf
-COPY --from=builder $PACKAGE_DIR /usr/share/nginx/html
+COPY --from=builder /packaged-dist /usr/share/nginx/html
 
 
 CMD ["/run.sh"]
