@@ -23,7 +23,7 @@ RUN ./node_modules/.bin/ng build \
 
 # Build a small nginx image with static website
 FROM nginx:mainline-alpine
-COPY nginx/default.conf /etc/nginx/conf.d/
+COPY docker/default.conf /etc/nginx/conf.d/
 RUN rm -rf /usr/share/nginx/html/*
 # COPY docker/run.sh /run.sh
 # COPY docker/nginx.conf /tmp/nginx.conf
