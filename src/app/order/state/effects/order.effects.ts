@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as orderActions from '../actions/order.actions';
-import { switchMap, map, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, withLatestFrom, catchError } from 'rxjs/operators';
 import { FrontendBaseEffect } from 'src/app/shared/frontend-base-effect';
 import { OrderService } from '../../services/order.service';
 import { SnackbarWrapperService } from 'src/app/shared/services/snackbar-wrapper-service';
@@ -10,6 +10,7 @@ import * as fromRoot from './../reducers';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { OrderErrorsComponent } from '../../components/order-errors/order-errors.component';
 
 @Injectable()
 export class OrderEffects extends FrontendBaseEffect {
@@ -26,14 +27,17 @@ export class OrderEffects extends FrontendBaseEffect {
         withLatestFrom(this.store.select(fromRoot.getQuery)),
         switchMap(([action, query]) => {
             let orderRequest = action.request;
-            
+
             orderRequest.Status = query.status !== undefined ? query.status : null;
             orderRequest.Date_From = query.date_from ? moment(query.date_from).format("YYYY/MM/DD") : null;
             orderRequest.Date_To = query.date_to ? moment(query.date_to).format("YYYY/MM/DD") : null;
 
             return this.orderService.getOrders(orderRequest)
                 .pipe(
-                    map(data => new orderActions.LoadOrdersComplete(data))
+                    map(data => new orderActions.LoadOrdersComplete(data)),
+                    catchError((errorResponse: any) => {
+                        return this.handleError(new orderActions.OnError(), errorResponse, OrderErrorsComponent);
+                    })
                 )
         }
         )
@@ -58,7 +62,10 @@ export class OrderEffects extends FrontendBaseEffect {
                     //     console.error("Error adding document: ", error);
                     // });
                     return new orderActions.AddOrderComplete(response);
-                })
+                }),
+                catchError((errorResponse: any) => {
+					return this.handleError(new orderActions.OnError(), errorResponse, OrderErrorsComponent);
+				})
             ))
     );
 
@@ -67,7 +74,25 @@ export class OrderEffects extends FrontendBaseEffect {
         ofType<orderActions.LoadOrderById>(orderActions.OrderActionTypes.LoadOrderById),
         switchMap(action => this.orderService.getOrderById(action.orderId)
             .pipe(
-                map(data => new orderActions.LoadOrderByIdComplete(data))
+                map(data => new orderActions.LoadOrderByIdComplete(data)),
+                catchError((errorResponse: any) => {
+					return this.handleError(new orderActions.OnError(), errorResponse, OrderErrorsComponent);
+				})
+            ))
+    );
+
+    @Effect()
+    updateOrder$ = this.actions$.pipe(
+        ofType<orderActions.UpdateOrder>(orderActions.OrderActionTypes.UpdateOrder),
+        switchMap(action => this.orderService.updateOrder(action.request)
+            .pipe(
+                map(_ => {
+                    this.router.navigate(['/order']);
+                    return new orderActions.UpdateOrderComplete();
+                }),
+                catchError((errorResponse: any) => {
+					return this.handleError(new orderActions.OnError(), errorResponse, OrderErrorsComponent);
+				})
             ))
     );
 }

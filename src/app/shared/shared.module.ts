@@ -17,9 +17,10 @@ import { LocalStorageReaderService } from './services/local-storage/local-storag
 import { LocalStorageWriterService } from './services/local-storage/local-storage-writer.service';
 import { LocalStorage } from './services/local-storage/local-storage';
 import { WindowService } from './components/table-view/table-view-window-service';
+import { GeneralErrorsComponent } from './components/general-errors/general-errors.component';
 
 @NgModule({
-  declarations: [NavBarComponent, AppConfirmComponent, BubbleComponent, DecimalOnlyDirective, FooterComponent, TableViewComponent],
+  declarations: [NavBarComponent, AppConfirmComponent, BubbleComponent, DecimalOnlyDirective, FooterComponent, TableViewComponent, GeneralErrorsComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -31,8 +32,8 @@ import { WindowService } from './components/table-view/table-view-window-service
   ],
   exports: [NavBarComponent, AppConfirmComponent, BubbleComponent,
     MaterialModule, FormsModule, ReactiveFormsModule, DecimalOnlyDirective,
-    HighchartsChartModule, FooterComponent, NgxDatatableModule, TableViewComponent],
-  entryComponents: [AppConfirmComponent]
+    HighchartsChartModule, FooterComponent, NgxDatatableModule, TableViewComponent,GeneralErrorsComponent],
+  entryComponents: [AppConfirmComponent,GeneralErrorsComponent]
 })
 export class SharedModule {
 	static forRoot(): ModuleWithProviders {

@@ -1,6 +1,7 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { Injectable, TemplateRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
+import { GeneralErrorsComponent } from '../components/general-errors/general-errors.component';
 
 @Injectable()
 export class SnackbarWrapperService {
@@ -9,6 +10,13 @@ export class SnackbarWrapperService {
 
     openFromComponent<T, K>(component: ComponentType<T>, data: K, duration: number = this.snackBarDuration) {
         this.snackBar.openFromComponent(component, {
+            duration,
+            data
+        });
+    }
+
+    openFromGenericErrorComponent<K>(data: K, duration: number = this.snackBarDuration) {
+        this.snackBar.openFromComponent(GeneralErrorsComponent, {
             duration,
             data
         });

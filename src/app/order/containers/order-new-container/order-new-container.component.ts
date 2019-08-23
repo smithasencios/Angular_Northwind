@@ -23,7 +23,7 @@ import { ofType } from '@ngrx/effects';
 })
 export class OrderNewContainerComponent implements OnInit {
 
-  orderId: number;
+  orderId: number = 0;
   orderForm: FormGroup;
   preOrderCustomer: PreOrderCustomer;
   orderProductList: PreOrderProduct[] = [];
@@ -68,6 +68,8 @@ export class OrderNewContainerComponent implements OnInit {
   }
 
   buildEditForm(orderItem: OrderListItem): void {
+    this.orderId = orderItem.Order_Id;
+
     this.orderForm = this.fb.group({
       id: [orderItem.Customer_Id, [Validators.required]],
       name: [orderItem.Customer, [Validators.required]],
@@ -140,11 +142,17 @@ export class OrderNewContainerComponent implements OnInit {
 
   onSave() {
     const customer = { ...this.preOrderCustomer, ...this.orderForm.value };
+    this.preOrder.order_id = this.orderId;
     this.preOrder.CustomerId = customer.id;
     this.preOrder.OrderDate = moment(customer.fecha).format("YYYY/MM/DD");
     this.preOrder.OrderDetails = PreOrderDetail.mapOrderDetail(this.orderProductList);
 
-    this.store.dispatch(new orderActions.AddOrder(this.preOrder));
+    if (this.orderId === 0) {
+      this.store.dispatch(new orderActions.AddOrder(this.preOrder));
+    } else {
+      this.store.dispatch(new orderActions.UpdateOrder(this.preOrder));
+    }
+
   }
 
   onCancel(): void {

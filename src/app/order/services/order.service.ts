@@ -46,6 +46,12 @@ export class OrderService {
         map((response: number) => response)
       );
   }
+  updateOrder(request: PreOrder): Observable<Response> {
+    return this.http.put(`${environment.ApiUrl}orders`, request)
+      .pipe(
+        map((response: Response) => response)
+      );
+  }
   getOrderById(id: number): Observable<OrderListItem> {
     return this.http.get<OrderListItem>(`${environment.ApiUrl}orders/${id}`)
       .pipe(

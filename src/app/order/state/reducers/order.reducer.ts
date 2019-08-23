@@ -34,6 +34,12 @@ export function OrderReducer(state = initialState, action: orderActions.Actions)
         case orderActions.OrderActionTypes.AddOrderComplete: {
             return state;
         }
+        case orderActions.OrderActionTypes.UpdateOrder: {
+            return state;
+        }
+        case orderActions.OrderActionTypes.UpdateOrderComplete: {
+            return state;
+        }
         case orderActions.OrderActionTypes.LoadOrderById: {
             return state;
         }

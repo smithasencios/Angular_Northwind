@@ -8,6 +8,8 @@ import { OrderListItem } from '../../models/order-list-item';
 export enum OrderActionTypes {
     AddOrder = '[Order] Add Order',
     AddOrderComplete = '[Order] Add Order Complete',
+    UpdateOrder = '[Order] Update Order',
+    UpdateOrderComplete = '[Order] Update Order Complete',
     LoadOrders = '[Order] Load Orders',
     LoadOrdersComplete = '[Order] Load Orders Complete',
     LoadOrderById = '[Order] Load Order By Id',
@@ -29,7 +31,14 @@ export class AddOrderComplete implements Action {
     readonly type = OrderActionTypes.AddOrderComplete;
     constructor(public orderId: number) { }
 }
-
+export class UpdateOrder implements Action {
+    readonly type = OrderActionTypes.UpdateOrder;
+    constructor(public request: PreOrder) { }
+}
+export class UpdateOrderComplete implements Action {
+    readonly type = OrderActionTypes.UpdateOrderComplete;
+    constructor() { }
+}
 export class LoadOrders implements Action {
     readonly type = OrderActionTypes.LoadOrders;
     constructor(public request: GetOrders) { }
@@ -59,4 +68,6 @@ export type Actions =
     | LoadOrderById
     | LoadOrderByIdComplete
     | UpdateOrderSearchCriteria
+    | UpdateOrder
+    | UpdateOrderComplete
     | OnError;

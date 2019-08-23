@@ -4,6 +4,7 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { CustomError } from './models/CustomError';
 import { SnackbarWrapperService } from './services/snackbar-wrapper-service';
+import { GeneralErrorsComponent } from './components/general-errors/general-errors.component';
 
 export class FrontendBaseEffect {
     config: MatSnackBarConfig<string>;
@@ -15,12 +16,13 @@ export class FrontendBaseEffect {
             if (customError) {
                 this.snackbarWrapperService.openFromComponent<T, CustomError>(component, customError);
             }
+        } else {            
+            this.snackbarWrapperService.openFromGenericErrorComponent<any>(error);
         }
         return of(action);
     }
 
     private isCustomError(jsonString) {
         return jsonString ? jsonString.hasOwnProperty('key') && jsonString.hasOwnProperty('message') : false;
-        //return jsonString ? jsonString.hasOwnProperty('name') && jsonString.hasOwnProperty('message') : false;
     }
 }
