@@ -1,7 +1,7 @@
 import { PreOrderProduct } from './pre-order-product';
 
 export class PreOrder {
-    order_id: Number;
+    Id: Number;
     CustomerId: number;
     OrderDate: String;
     OrderDetails: PreOrderDetail[] = [];
@@ -13,7 +13,7 @@ export class PreOrder {
     }
 }
 export class PreOrderDetail {
-    id: Number;
+    Id: Number;
     OrderId: Number;
     ProductId: Number;
     Quantity: number;
@@ -25,6 +25,7 @@ export class PreOrderDetail {
         let newProducts: PreOrderDetail[] = [];
         products.map((item: PreOrderProduct) => {
             const product: PreOrderDetail = new PreOrderDetail();
+            product.Id = item.Id;
             product.ProductId = item.Product_Id;
             product.Quantity = item.Quantity;
             product.UnitPrice = item.Quantity;

@@ -68,6 +68,7 @@ export class OrderNewContainerComponent implements OnInit {
   }
 
   buildEditForm(orderItem: OrderListItem): void {
+    // console.log(orderItem);
     this.orderId = orderItem.Order_Id;
 
     this.orderForm = this.fb.group({
@@ -84,11 +85,12 @@ export class OrderNewContainerComponent implements OnInit {
     if (ordeDetailEdit) {
       for (let index = 0; index < ordeDetailEdit.length; index++) {
         const element = ordeDetailEdit[index];
-        const product = new PreOrderProduct(element.OrderId, element.ProductName, element.UnitPrice);
+        const product = new PreOrderProduct(element.Id, element.ProductId, element.ProductName, element.UnitPrice);
         this.orderProductList.push(product);
         this.orderProductList = [...this.orderProductList];
         this.preOrderFooter = new PreOrderFooter(this.orderProductList);
       }
+      // console.log(this.orderProductList)
     }
   }
 
@@ -122,7 +124,7 @@ export class OrderNewContainerComponent implements OnInit {
   }
 
   AddProductToList(item: Product): void {
-    const product = new PreOrderProduct(item.id, item.product_name, item.standard_cost);
+    const product = new PreOrderProduct(0, item.id, item.product_name, item.standard_cost);
     this.orderProductList.push(product);
     this.orderProductList = [...this.orderProductList];
 
@@ -142,7 +144,7 @@ export class OrderNewContainerComponent implements OnInit {
 
   onSave() {
     const customer = { ...this.preOrderCustomer, ...this.orderForm.value };
-    this.preOrder.order_id = this.orderId;
+    this.preOrder.Id = this.orderId;
     this.preOrder.CustomerId = customer.id;
     this.preOrder.OrderDate = moment(customer.fecha).format("YYYY/MM/DD");
     this.preOrder.OrderDetails = PreOrderDetail.mapOrderDetail(this.orderProductList);
