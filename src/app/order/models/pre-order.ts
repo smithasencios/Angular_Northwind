@@ -28,7 +28,7 @@ export class PreOrderDetail {
             product.Id = item.Id;
             product.ProductId = item.Product_Id;
             product.Quantity = item.Quantity;
-            product.UnitPrice = item.Quantity;
+            product.UnitPrice = item.Unit_Price;
             newProducts.push(product);
         });
         return newProducts;

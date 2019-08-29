@@ -9,11 +9,12 @@ export class PreOrderProduct {
     constructor(id: number,
         product_id: number,
         description: string,
-        unit_price: number) {
+        unit_price: number,
+        quantity: number = 1) {
         this.Id = id;
         this.Product_Id = product_id;
         this.Description = description;
-        this.Quantity = 1;
+        this.Quantity = quantity;
         this.Unit_Price = Number(unit_price.toFixed(2));
         this.Total_Value = Number((this.Quantity * unit_price).toFixed(2));
     }

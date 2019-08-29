@@ -68,7 +68,6 @@ export class OrderNewContainerComponent implements OnInit {
   }
 
   buildEditForm(orderItem: OrderListItem): void {
-    // console.log(orderItem);
     this.orderId = orderItem.Order_Id;
 
     this.orderForm = this.fb.group({
@@ -85,12 +84,11 @@ export class OrderNewContainerComponent implements OnInit {
     if (ordeDetailEdit) {
       for (let index = 0; index < ordeDetailEdit.length; index++) {
         const element = ordeDetailEdit[index];
-        const product = new PreOrderProduct(element.Id, element.ProductId, element.ProductName, element.UnitPrice);
+        const product = new PreOrderProduct(element.Id, element.ProductId, element.ProductName, element.UnitPrice,element.Quantity);
         this.orderProductList.push(product);
         this.orderProductList = [...this.orderProductList];
         this.preOrderFooter = new PreOrderFooter(this.orderProductList);
       }
-      // console.log(this.orderProductList)
     }
   }
 
