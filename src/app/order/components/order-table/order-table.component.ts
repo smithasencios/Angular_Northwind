@@ -13,6 +13,8 @@ export class OrderTableComponent implements OnInit {
   items: PreOrderProduct[];
   @Output()
   updateQuantity: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  deleteProductOrder: EventEmitter<any> = new EventEmitter<any>();
 
   editing = {};
   constructor() { }
@@ -26,7 +28,7 @@ export class OrderTableComponent implements OnInit {
     this.updateQuantity.emit(selectedObject);
   }
 
-  onRemoveItem(): void {
-
+  onRemoveItem(event: any): void {
+    this.deleteProductOrder.emit(event);
   }
 }

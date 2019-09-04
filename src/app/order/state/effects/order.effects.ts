@@ -64,8 +64,8 @@ export class OrderEffects extends FrontendBaseEffect {
                     return new orderActions.AddOrderComplete(response);
                 }),
                 catchError((errorResponse: any) => {
-					return this.handleError(new orderActions.OnError(), errorResponse, OrderErrorsComponent);
-				})
+                    return this.handleError(new orderActions.OnError(), errorResponse, OrderErrorsComponent);
+                })
             ))
     );
 
@@ -76,8 +76,8 @@ export class OrderEffects extends FrontendBaseEffect {
             .pipe(
                 map(data => new orderActions.LoadOrderByIdComplete(data)),
                 catchError((errorResponse: any) => {
-					return this.handleError(new orderActions.OnError(), errorResponse, OrderErrorsComponent);
-				})
+                    return this.handleError(new orderActions.OnError(), errorResponse, OrderErrorsComponent);
+                })
             ))
     );
 
@@ -91,8 +91,32 @@ export class OrderEffects extends FrontendBaseEffect {
                     return new orderActions.UpdateOrderComplete();
                 }),
                 catchError((errorResponse: any) => {
-					return this.handleError(new orderActions.OnError(), errorResponse, OrderErrorsComponent);
-				})
+                    return this.handleError(new orderActions.OnError(), errorResponse, OrderErrorsComponent);
+                })
+            ))
+    );
+
+    @Effect()
+    deleteOrderDetail$ = this.actions$.pipe(
+        ofType<orderActions.DeleteOrderDetail>(orderActions.OrderActionTypes.DeleteOrderDetail),
+        switchMap(action => this.orderService.deleteOrderDetail(action.orderId, action.orderDetailId)
+            .pipe(
+                map(_ => new orderActions.DeleteOrderDetailComplete()),
+                catchError((errorResponse: any) => {
+                    return this.handleError(new orderActions.OnError(), errorResponse, OrderErrorsComponent);
+                })
+            ))
+    );
+
+    @Effect()
+    deleteOrder$ = this.actions$.pipe(
+        ofType<orderActions.DeleteOrder>(orderActions.OrderActionTypes.DeleteOrder),
+        switchMap(action => this.orderService.deleteOrder(action.orderId)
+            .pipe(
+                map(_ => new orderActions.DeleteOrderComplete()),
+                catchError((errorResponse: any) => {
+                    return this.handleError(new orderActions.OnError(), errorResponse, OrderErrorsComponent);
+                })
             ))
     );
 }

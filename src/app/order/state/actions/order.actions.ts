@@ -15,6 +15,10 @@ export enum OrderActionTypes {
     LoadOrderById = '[Order] Load Order By Id',
     LoadOrderByIdComplete = '[Order] Load Order By Id Complete',
     UpdateOrderSearchCriteria = '[Order] Update Order Search Criteria',
+    DeleteOrderDetail = '[Order] Delete Order Detail',
+    DeleteOrderDetailComplete = '[Order] Delete Order Detail Complete',
+    DeleteOrder = '[Order] Delete Order',
+    DeleteOrderComplete = '[Order] Delete Order Complete',
     OnError = '[Order] On Error'
 }
 
@@ -60,6 +64,23 @@ export class UpdateOrderSearchCriteria implements Action {
     readonly type = OrderActionTypes.UpdateOrderSearchCriteria;
     constructor(public payload: SearchOrderCriteria) { }
 }
+export class DeleteOrderDetail implements Action {
+    readonly type = OrderActionTypes.DeleteOrderDetail;
+    constructor(public orderId: number, public orderDetailId: number) { }
+}
+export class DeleteOrderDetailComplete implements Action {
+    readonly type = OrderActionTypes.DeleteOrderDetailComplete;
+    constructor() { }
+}
+export class DeleteOrder implements Action {
+    readonly type = OrderActionTypes.DeleteOrder;
+    constructor(public orderId: number) { }
+}
+export class DeleteOrderComplete implements Action {
+    readonly type = OrderActionTypes.DeleteOrderComplete;
+    constructor() { }
+}
+
 export type Actions =
     | AddOrder
     | AddOrderComplete
@@ -70,4 +91,8 @@ export type Actions =
     | UpdateOrderSearchCriteria
     | UpdateOrder
     | UpdateOrderComplete
+    | DeleteOrderDetail
+    | DeleteOrderDetailComplete
+    | DeleteOrder
+    | DeleteOrderComplete
     | OnError;

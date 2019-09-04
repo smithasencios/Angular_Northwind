@@ -55,7 +55,7 @@
       </button>
     </div>
     <div>
-      <app-order-table #tableView [items]="orderProductList" (updateQuantity)="UpdateQuantity($event)">
+      <app-order-table #tableView [items]="orderProductList" (updateQuantity)="UpdateQuantity($event)" (deleteProductOrder)="onDeleteProductOrder($event)">
       </app-order-table>
     </div>
     <div class="order-footer" *ngIf="orderProductList.length > 0">

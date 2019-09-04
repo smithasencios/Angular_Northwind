@@ -12,6 +12,8 @@ import { SearchOrderCriteria } from '../../models/search-order-criteria';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
+import { ConfirmData } from 'src/app/shared/models/ConfirmData';
+import { AppConfirmService } from 'src/app/shared/components/app-confirm/app-confirm.service';
 
 @Component({
   selector: 'app-order-main-container',
@@ -38,7 +40,8 @@ export class OrderMainContainerComponent implements OnInit, AfterViewInit {
   @ViewChild("accionesCellTemplate", { static: false }) private accionesCellTemplate: TemplateRef<any>;
 
   constructor(private fb: FormBuilder, private store: Store<fromReducer.OrderState>,
-    private ref: ChangeDetectorRef, private router: Router, private db: AngularFirestore) {
+    private ref: ChangeDetectorRef, private router: Router, private db: AngularFirestore,
+    private confirmService: AppConfirmService) {
     this.buildSearchForm();
     this.listenNewDocumentsInFirestore();
 
@@ -160,5 +163,15 @@ export class OrderMainContainerComponent implements OnInit, AfterViewInit {
 
   onViewDetail(row: any): void {
     this.router.navigate(['/order/detail/', row.Order_Id]);
+  }
+
+  onRemoveOrder(orderId:number):void{
+    const confirmData = new ConfirmData('Delete Order', '¿Estas seguro de eliminar la orden?', true);
+    this.confirmService.confirm(confirmData)
+    .subscribe(result => {
+      if (result) {
+        this.store.dispatch(new orderActions.DeleteOrder(orderId));
+      }
+    });
   }
 }

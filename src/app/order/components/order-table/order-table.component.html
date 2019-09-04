@@ -28,9 +28,9 @@
         {{value}}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="Acciones">
+    <ngx-datatable-column name="Acciones" prop="Id">
       <ng-template ngx-datatable-cell-template let-value="value">
-        <button mat-icon-button (click)="onRemoveItem()">
+        <button mat-icon-button (click)="onRemoveItem(value)">
           <mat-icon>delete_forever</mat-icon>
         </button>
       </ng-template>

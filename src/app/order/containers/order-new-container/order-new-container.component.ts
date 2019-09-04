@@ -16,6 +16,10 @@ import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderListItem } from '../../models/order-list-item';
 import { ofType } from '@ngrx/effects';
+import { AppConfirmService } from 'src/app/shared/components/app-confirm/app-confirm.service';
+import { ConfirmData } from 'src/app/shared/models/ConfirmData';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-order-new-container',
   templateUrl: './order-new-container.component.html',
@@ -29,30 +33,45 @@ export class OrderNewContainerComponent implements OnInit {
   orderProductList: PreOrderProduct[] = [];
   preOrderFooter: PreOrderFooter = PreOrderFooter.createEmptyInstance();
   preOrder: PreOrder = PreOrder.createEmptyInstance();
+  protected ngUnsubscribe: Subject<any> = new Subject<any>();
 
   constructor(private fb: FormBuilder,
     private dialog: MatDialog,
     private store: Store<fromReducer.OrderState>,
     private route: ActivatedRoute,
     private actionsSubject$: ActionsSubject,
-    private router: Router) {
+    private router: Router,
+    private confirmService: AppConfirmService) {
     this.buildNewForm();
+    this.triggers();
+  }
+
+  triggers() {
+    this.actionsSubject$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(ofType(orderActions.OrderActionTypes.DeleteOrderDetailComplete))
+      .subscribe(_ => {
+        this.route.params.subscribe(params => {
+          this.orderProductList = [];
+          if (params.id) {
+            this.store.dispatch(new orderActions.LoadOrderById(params.id));
+          }
+        });
+      });
+
+    this.actionsSubject$
+      .pipe(ofType(orderActions.OrderActionTypes.LoadOrderByIdComplete))
+      .subscribe((response: any) => {
+        this.buildEditForm(response.payload)
+      });
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       if (params.id) {
         this.store.dispatch(new orderActions.LoadOrderById(params.id));
-        this.setOnSuccess();
       }
     });
-  }
-  setOnSuccess() {
-    this.actionsSubject$
-      .pipe(ofType(orderActions.OrderActionTypes.LoadOrderByIdComplete))
-      .subscribe((response: any) => {
-        this.buildEditForm(response.payload)
-      });
   }
 
   buildNewForm(): void {
@@ -84,7 +103,7 @@ export class OrderNewContainerComponent implements OnInit {
     if (ordeDetailEdit) {
       for (let index = 0; index < ordeDetailEdit.length; index++) {
         const element = ordeDetailEdit[index];
-        const product = new PreOrderProduct(element.Id, element.ProductId, element.ProductName, element.UnitPrice,element.Quantity);
+        const product = new PreOrderProduct(element.Id, element.ProductId, element.ProductName, element.UnitPrice, element.Quantity);
         this.orderProductList.push(product);
         this.orderProductList = [...this.orderProductList];
         this.preOrderFooter = new PreOrderFooter(this.orderProductList);
@@ -157,5 +176,16 @@ export class OrderNewContainerComponent implements OnInit {
 
   onCancel(): void {
     this.router.navigate(['order']);
+  }
+
+  onDeleteProductOrder(orderDetailId: any) {
+    const confirmData = new ConfirmData('Delete Product', '¿Estas seguro de eliminar el producto?', true);
+
+    this.confirmService.confirm(confirmData)
+      .subscribe(result => {
+        if (result) {
+          this.store.dispatch(new orderActions.DeleteOrderDetail(this.orderId, orderDetailId));
+        }
+      });
   }
 }
